@@ -1,0 +1,12 @@
+*.exe
+*.iml
+*.log
+*.swp
+.DS_Store
+.idea
+.vscode
+/conf/app.local.conf
+/conf/k8sconfig
+/kubecloud
+/configRepo/
+/k8sconfig/
