@@ -39,3 +39,4 @@ Session.vim
 /kubecloud
 /configRepo/
 /k8sconfig/
+/vendor/
