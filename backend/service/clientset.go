@@ -1,13 +1,9 @@
 package service
 
 import (
-	"github.com/astaxie/beego"
-	"path"
 	"sync"
 
-	"github.com/tektoncd/pipeline/pkg/client/clientset/versioned"
 	"k8s.io/client-go/kubernetes"
-	knativetest "knative.dev/pkg/test"
 )
 
 var (
@@ -54,58 +50,4 @@ func UpdateClientset(cluster string) (client kubernetes.Interface, err error) {
 	}
 	clusterClientsetMap[cluster] = client
 	return
-}
-
-// Tekton
-
-var (
-	tektonClientsetMapMutex     sync.RWMutex
-	tektonClientsMapForClusters = make(map[string]*versioned.Clientset)
-)
-
-func tektonClientProvider(cluster string) (*versioned.Clientset, error) {
-	configPath := path.Join(beego.AppConfig.String("k8s::configPath"), cluster)
-	cfg, err := knativetest.BuildClientConfig(configPath, "")
-	if err != nil {
-		beego.Error("build client config for tekton failed:", configPath, cluster, err)
-		return nil, err
-	}
-
-	cs, err := versioned.NewForConfig(cfg)
-	if err != nil {
-		beego.Error("new client set for tekton failed:", cluster, err)
-		return nil, err
-	}
-	return cs, nil
-}
-
-func findTektonClientset(cluster string) (client *versioned.Clientset, ok bool) {
-	tektonClientsetMapMutex.RLock()
-	defer tektonClientsetMapMutex.RUnlock()
-	client, ok = tektonClientsMapForClusters[cluster]
-	return client, ok
-}
-
-func newTektonClientset(cluster string) (client *versioned.Clientset, err error) {
-	tektonClientsetMapMutex.Lock()
-	defer tektonClientsetMapMutex.Unlock()
-	client, ok := tektonClientsMapForClusters[cluster]
-	if !ok {
-		client, err = tektonClientProvider(cluster)
-		if err == nil {
-			tektonClientsMapForClusters[cluster] = client
-		}
-	}
-	return client, err
-}
-
-func GetTektonClientset(cluster string) (client *versioned.Clientset, err error) {
-	var ok bool
-	client, ok = findTektonClientset(cluster)
-	if !ok {
-		if client, err = newTektonClientset(cluster); err != nil {
-			return nil, err
-		}
-	}
-	return client, err
 }

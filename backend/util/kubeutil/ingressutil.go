@@ -7,7 +7,7 @@ import (
 	"kubecloud/common/utils"
 
 	extensions "k8s.io/api/extensions/v1beta1"
-	"k8s.io/kubernetes/pkg/util/labels"
+	"kubecloud/backend/util/labels"
 )
 
 const (

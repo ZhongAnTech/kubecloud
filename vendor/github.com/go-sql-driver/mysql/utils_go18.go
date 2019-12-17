@@ -12,8 +12,10 @@ package mysql
 
 import (
 	"crypto/tls"
+	"database/sql"
 	"database/sql/driver"
 	"errors"
+	"fmt"
 )
 
 func cloneTLSConfig(c *tls.Config) *tls.Config {
@@ -30,4 +32,19 @@ func namedValueToValue(named []driver.NamedValue) ([]driver.Value, error) {
 		dargs[n] = param.Value
 	}
 	return dargs, nil
+}
+
+func mapIsolationLevel(level driver.IsolationLevel) (string, error) {
+	switch sql.IsolationLevel(level) {
+	case sql.LevelRepeatableRead:
+		return "REPEATABLE READ", nil
+	case sql.LevelReadCommitted:
+		return "READ COMMITTED", nil
+	case sql.LevelReadUncommitted:
+		return "READ UNCOMMITTED", nil
+	case sql.LevelSerializable:
+		return "SERIALIZABLE", nil
+	default:
+		return "", fmt.Errorf("mysql: unsupported isolation level: %v", level)
+	}
 }

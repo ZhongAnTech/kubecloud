@@ -32,7 +32,6 @@ import (
 	corelisters "k8s.io/client-go/listers/core/v1"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/util/workqueue"
-	"k8s.io/kubernetes/pkg/controller"
 )
 
 type EventController struct {
@@ -74,7 +73,7 @@ func (ec *EventController) Run(workers int, stopCh <-chan struct{}) {
 	defer utilruntime.HandleCrash()
 	defer ec.queue.ShutDown()
 
-	if !controller.WaitForCacheSync("event", stopCh, ec.eventSynced) {
+	if !cache.WaitForNamedCacheSync("event", stopCh, ec.eventSynced) {
 		return
 	}
 
@@ -112,7 +111,7 @@ func (ec *EventController) processNextWorkItem() bool {
 }
 
 func (ec *EventController) enqueue(event *v1.Event) {
-	key, err := controller.KeyFunc(event)
+	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(event)
 	if err != nil {
 		beego.Error(fmt.Errorf("Couldn't get key for object %#v: %v", event, err))
 		return

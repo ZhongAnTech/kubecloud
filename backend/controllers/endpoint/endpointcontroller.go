@@ -17,7 +17,6 @@ import (
 	corelisters "k8s.io/client-go/listers/core/v1"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/util/workqueue"
-	"k8s.io/kubernetes/pkg/controller"
 )
 
 const (
@@ -90,7 +89,7 @@ func (ec *EndpointController) Run(workers int, stopCh <-chan struct{}) {
 }
 
 func (ec *EndpointController) enqueue(endpoint *core.Endpoints) {
-	key, err := controller.KeyFunc(endpoint)
+	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(endpoint)
 	if err != nil {
 		beego.Error(fmt.Errorf("Couldn't get key for object %#v: %v", endpoint, err))
 		return

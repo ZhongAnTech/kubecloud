@@ -9,7 +9,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 
-	v1beta1 "k8s.io/api/apps/v1beta1"
+	"k8s.io/api/apps/v1beta1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/util/wait"
 	informers "k8s.io/client-go/informers/apps/v1beta1"
@@ -17,7 +17,6 @@ import (
 	listers "k8s.io/client-go/listers/apps/v1beta1"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/util/workqueue"
-	"k8s.io/kubernetes/pkg/controller"
 )
 
 const (
@@ -127,7 +126,7 @@ func (ac *ApplicationController) deleteDeployment(obj interface{}) {
 }
 
 func (ac *ApplicationController) enqueue(deployment *v1beta1.Deployment) {
-	key, err := controller.KeyFunc(deployment)
+	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(deployment)
 	if err != nil {
 		beego.Error(fmt.Errorf("Couldn't get key for object %#v: %v", deployment, err))
 		return
@@ -137,7 +136,7 @@ func (ac *ApplicationController) enqueue(deployment *v1beta1.Deployment) {
 }
 
 func (ac *ApplicationController) enqueueRateLimited(deployment *v1beta1.Deployment) {
-	key, err := controller.KeyFunc(deployment)
+	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(deployment)
 	if err != nil {
 		beego.Error(fmt.Errorf("Couldn't get key for object %#v: %v", deployment, err))
 		return

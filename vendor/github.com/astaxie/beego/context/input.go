@@ -16,14 +16,18 @@ package context
 
 import (
 	"bytes"
+	"compress/gzip"
 	"errors"
 	"io"
 	"io/ioutil"
+	"net"
+	"net/http"
 	"net/url"
 	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/astaxie/beego/session"
 )
@@ -34,6 +38,7 @@ var (
 	acceptsHTMLRegex = regexp.MustCompile(`(text/html|application/xhtml\+xml)(?:,|$)`)
 	acceptsXMLRegex  = regexp.MustCompile(`(application/xml|text/xml)(?:,|$)`)
 	acceptsJSONRegex = regexp.MustCompile(`(application/json)(?:,|$)`)
+	acceptsYAMLRegex = regexp.MustCompile(`(application/x-yaml)(?:,|$)`)
 	maxParam         = 50
 )
 
@@ -45,6 +50,7 @@ type BeegoInput struct {
 	pnames        []string
 	pvalues       []string
 	data          map[interface{}]interface{} // store some values in this context when calling context in filter or controller.
+	dataLock      sync.RWMutex
 	RequestBody   []byte
 	RunMethod     string
 	RunController reflect.Type
@@ -113,9 +119,8 @@ func (input *BeegoInput) Domain() string {
 // if no host info in request, return localhost.
 func (input *BeegoInput) Host() string {
 	if input.Context.Request.Host != "" {
-		hostParts := strings.Split(input.Context.Request.Host, ":")
-		if len(hostParts) > 0 {
-			return hostParts[0]
+		if hostPart, _, err := net.SplitHostPort(input.Context.Request.Host); err == nil {
+			return hostPart
 		}
 		return input.Context.Request.Host
 	}
@@ -202,22 +207,27 @@ func (input *BeegoInput) AcceptsJSON() bool {
 	return acceptsJSONRegex.MatchString(input.Header("Accept"))
 }
 
+// AcceptsYAML Checks if request accepts json response
+func (input *BeegoInput) AcceptsYAML() bool {
+	return acceptsYAMLRegex.MatchString(input.Header("Accept"))
+}
+
 // IP returns request client ip.
 // if in proxy, return first proxy id.
-// if error, return 127.0.0.1.
+// if error, return RemoteAddr.
 func (input *BeegoInput) IP() string {
 	ips := input.Proxy()
 	if len(ips) > 0 && ips[0] != "" {
-		rip := strings.Split(ips[0], ":")
-		return rip[0]
-	}
-	ip := strings.Split(input.Context.Request.RemoteAddr, ":")
-	if len(ip) > 0 {
-		if ip[0] != "[" {
-			return ip[0]
+		rip, _, err := net.SplitHostPort(ips[0])
+		if err != nil {
+			rip = ips[0]
 		}
+		return rip
 	}
-	return "127.0.0.1"
+	if ip, _, err := net.SplitHostPort(input.Context.Request.RemoteAddr); err == nil {
+		return ip
+	}
+	return input.Context.Request.RemoteAddr
 }
 
 // Proxy returns proxy client ips slice.
@@ -251,9 +261,8 @@ func (input *BeegoInput) SubDomains() string {
 // Port returns request client port.
 // when error or empty, return 80.
 func (input *BeegoInput) Port() int {
-	parts := strings.Split(input.Context.Request.Host, ":")
-	if len(parts) == 2 {
-		port, _ := strconv.Atoi(parts[1])
+	if _, portPart, err := net.SplitHostPort(input.Context.Request.Host); err == nil {
+		port, _ := strconv.Atoi(portPart)
 		return port
 	}
 	return 80
@@ -349,17 +358,30 @@ func (input *BeegoInput) CopyBody(MaxMemory int64) []byte {
 	if input.Context.Request.Body == nil {
 		return []byte{}
 	}
+
+	var requestbody []byte
 	safe := &io.LimitedReader{R: input.Context.Request.Body, N: MaxMemory}
-	requestbody, _ := ioutil.ReadAll(safe)
+	if input.Header("Content-Encoding") == "gzip" {
+		reader, err := gzip.NewReader(safe)
+		if err != nil {
+			return nil
+		}
+		requestbody, _ = ioutil.ReadAll(reader)
+	} else {
+		requestbody, _ = ioutil.ReadAll(safe)
+	}
+
 	input.Context.Request.Body.Close()
 	bf := bytes.NewBuffer(requestbody)
-	input.Context.Request.Body = ioutil.NopCloser(bf)
+	input.Context.Request.Body = http.MaxBytesReader(input.Context.ResponseWriter, ioutil.NopCloser(bf), MaxMemory)
 	input.RequestBody = requestbody
 	return requestbody
 }
 
 // Data return the implicit data in the input
 func (input *BeegoInput) Data() map[interface{}]interface{} {
+	input.dataLock.Lock()
+	defer input.dataLock.Unlock()
 	if input.data == nil {
 		input.data = make(map[interface{}]interface{})
 	}
@@ -368,6 +390,8 @@ func (input *BeegoInput) Data() map[interface{}]interface{} {
 
 // GetData returns the stored data in this context.
 func (input *BeegoInput) GetData(key interface{}) interface{} {
+	input.dataLock.Lock()
+	defer input.dataLock.Unlock()
 	if v, ok := input.data[key]; ok {
 		return v
 	}
@@ -377,6 +401,8 @@ func (input *BeegoInput) GetData(key interface{}) interface{} {
 // SetData stores data with given key in this context.
 // This data are only available in this context.
 func (input *BeegoInput) SetData(key, val interface{}) {
+	input.dataLock.Lock()
+	defer input.dataLock.Unlock()
 	if input.data == nil {
 		input.data = make(map[interface{}]interface{})
 	}

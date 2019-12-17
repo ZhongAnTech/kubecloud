@@ -38,7 +38,6 @@ import (
 	corelisters "k8s.io/client-go/listers/core/v1"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/util/workqueue"
-	"k8s.io/kubernetes/pkg/controller"
 )
 
 type NodeController struct {
@@ -85,7 +84,7 @@ func (nc *NodeController) Run(workers int, stopCh <-chan struct{}) {
 	defer utilruntime.HandleCrash()
 	defer nc.queue.ShutDown()
 
-	if !controller.WaitForCacheSync("node", stopCh, nc.nodeSynced) {
+	if !cache.WaitForNamedCacheSync("node", stopCh, nc.nodeSynced) {
 		return
 	}
 
@@ -123,7 +122,7 @@ func (nc *NodeController) processNextWorkItem() bool {
 }
 
 func (nc *NodeController) enqueue(node *v1.Node) {
-	key, err := controller.KeyFunc(node)
+	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(node)
 	if err != nil {
 		beego.Error(fmt.Errorf("Couldn't get key for object %#v: %v", node, err))
 		return

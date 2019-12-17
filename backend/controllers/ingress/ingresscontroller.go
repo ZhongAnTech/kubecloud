@@ -17,7 +17,6 @@ import (
 	extensionslisters "k8s.io/client-go/listers/extensions/v1beta1"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/util/workqueue"
-	"k8s.io/kubernetes/pkg/controller"
 )
 
 const (
@@ -123,7 +122,7 @@ func (ic *IngressController) deleteIngress(obj interface{}) {
 }
 
 func (ic *IngressController) enqueue(ing *extensions.Ingress) {
-	key, err := controller.KeyFunc(ing)
+	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(ing)
 	if err != nil {
 		beego.Error(fmt.Errorf("Couldn't get key for object %#v: %v", ing, err))
 		return

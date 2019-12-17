@@ -13,7 +13,7 @@ import (
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
-	"k8s.io/kubernetes/pkg/util/labels"
+	"kubecloud/backend/util/labels"
 )
 
 type KubeAppInterface interface {
@@ -130,7 +130,7 @@ func (kr *DeploymentRes) GetOwnerForPod(pod apiv1.Pod, ref *metav1.OwnerReferenc
 	if ref == nil {
 		return nil
 	}
-	rs, err := kr.client.Extensions().ReplicaSets(pod.Namespace).Get(ref.Name, metav1.GetOptions{})
+	rs, err := kr.client.ExtensionsV1beta1().ReplicaSets(pod.Namespace).Get(ref.Name, metav1.GetOptions{})
 	if err != nil || rs.UID != ref.UID {
 		beego.Warn(fmt.Sprintf("Cannot get replicaset %s for pod %s: %v", ref.Name, pod.Name, err))
 		return nil

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
-	"k8s.io/kubernetes/pkg/util/labels"
+	"kubecloud/backend/util/labels"
 	"kubecloud/gitops"
 	"strings"
 	"sync"

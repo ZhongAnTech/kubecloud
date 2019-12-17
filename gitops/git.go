@@ -29,10 +29,10 @@ func NewGit(dir, url, branch, token string) *Git {
 }
 
 func (g *Git) configUserEmail() error {
-	args := []string{"config", "user.email", `"kubecloud@zhongan.io"`}
+	args := []string{"config", "user.email", `"kubecloud@example.com"`}
 	out, err := utils.ExecCommand(g.Dir, g.commandName, args...)
 	if err != nil {
-		glog.Errorf(`git config user.email "kubecloud@zhongan.io" error: %s`, out)
+		glog.Errorf(`git config user.email "kubecloud@example.com" error: %s`, out)
 		return fmt.Errorf(out)
 	}
 	glog.Infof(`git config user.name "kubecloud"`)

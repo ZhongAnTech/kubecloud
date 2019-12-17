@@ -191,7 +191,7 @@ func parseExecOption(request *rest.Request, options ExecOption) *rest.Request {
 // startProcess is called by handleAttach
 // Executed cmd in the container specified in request and connects it up with the ptyHandler (a session)
 func startProcess(k8sClient kubernetes.Interface, cfg *rest.Config, namespace, podName, containerName string, cmd []string, ptyHandler PtyHandler) error {
-	req := k8sClient.Core().RESTClient().Post().
+	req := k8sClient.CoreV1().RESTClient().Post().
 		Resource("pods").
 		Name(podName).
 		Namespace(namespace).
@@ -366,7 +366,7 @@ func (this *ExecController) PodTerminalExec() {
 
 	cmd := strings.Split(trimAndformat(execRequestBody.Command), " ")
 
-	req := k8sClient.Core().RESTClient().Post().
+	req := k8sClient.CoreV1().RESTClient().Post().
 		Resource("pods").
 		Name(podName).
 		Namespace(namespace).

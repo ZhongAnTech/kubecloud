@@ -2009,114 +2009,82 @@ definitions:
     properties:
       name:
         type: "string"
-        example: "my-cephfs"
       provisioner:
         type: "string"
-        example: "ceph.com/cephfs"
       reclaimPolicy:
         type: "string"
-        example: "Delete"
       parameters:
         $ref: "#/definitions/StorageClassCephComCephfsSpec"
       creator:
         type: "string"
-        example: "alice"
       createAt:
         type: "string"
-        example: "2018-12-12 10:45:10"
   StorageClassCephComCephfsSpec:
     type: "object"
     properties:
       monitors:
         type: "string"
-        example: "10.0.0.1:6789,10.0.0.2:6789,10.0.0.3:6789"
       adminId:
         type: "string"
-        example: "admin"
       adminSecretName:
         type: "string"
-        example: "admin-secret"
       adminSecretNamespace:
         type: "string"
-        example: "ceph"
       claimRoot:
         type: "string"
-        example: "/volumes/kube"
   StorageClassCephComRbdSpec:
     type: "object"
     properties:
       monitors:
         type: "string"
-        example: "10.0.0.1:6789,10.0.0.2:6789,10.0.0.3:6789"
       adminId:
         type: "string"
-        example: "admin"
       adminSecretName:
         type: "string"
-        example: "admin-secret"
       adminSecretNamespace:
         type: "string"
-        example: "ceph"
       userId:
         type: "string"
-        example: "alice"
       userSecretName:
         type: "string"
-        example: "alice-secret"
       userSecretNamespace:
         type: "string"
-        example: "alice"
       pool:
         type: "string"
-        example: "kube"
       fsType:
         type: "string"
-        example: "ext4"
       imageFormat:
         type: "string"
-        example: "2"
       imageFeatures:
         type: "string"
-        example: "layering"
   PersistentVolumeClaimSpec:
     type: "object"
     properties:
       name:
         type: "string"
-        example: "cephfs-volume-1"
       namespace:
         type: "string"
-        example: "alice"
       storageClassName:
         type: "string"
-        example: "cephfs"
       size:
         type: "string"
-        example: "1Gi"
       accessMode:
         type: "string"
-        example: "ReadWriteOnce"
       creator:
         type: "string"
-        example: "alice"
       createAt:
         type: "string"
-        example: "2018-11-30 18:41:27"
       status:
         type: "string"
-        example: "Bound"
   SVSpec:
     type: "object"
     properties:
       name:
         type: "string"
-        example: "test"
       capacity:
         type: "string"
-        example: "1"
       accessModes:
         type: "string"
-        example: "ReadWriteMany"
       storageType:
         type: "object"
         properties:
@@ -2125,10 +2093,8 @@ definitions:
             properties:
               server:
                 type: "string"
-                example: "127.0.0.1"
               path:
                 type: "string"
-                example: "/tmp"
               readOnly:
                 type: "boolean"
                 default: false
@@ -2147,30 +2113,22 @@ definitions:
     properties:
       id:
         type: "integer"
-        example: 1
       cluster:
         type: "string"
-        example: "test"
       namespace:
         type: "string"
-        example: "default"
       name:
         type: "string"
-        example: "test"
       capacity:
         type: "string"
-        example: "1"
       accessModes:
         type: "string"
-        example: "ReadWriteMany"
       owner:
         type: "string"
-        example: "test-app"
       storageType:
         type: "object"
       creator:
         type: "string"
-        example: "admin"
       deleted:
         type: "integer"
       create_at:
@@ -2184,13 +2142,10 @@ definitions:
     properties:
       bu_code:
         type: "string"
-        example: "test"
       product:
         type: "string"
-        example: "test"
       name:
         type: "string"
-        example: "za-test"
       description:
         type: "string"
       template_id:
@@ -2206,36 +2161,26 @@ definitions:
       id:
         type: "integer"
         format: "int64"
-        example: 1
       bu_code:
         type: "string"
-        example: "test"
       product:
         type: "string"
-        example: "test"
       project_id:
         type: "integer"
         format: "int64"
-        example: 11
       name:
         type: "string"
-        example: "zcloud"
       command:
         type: "string"
-        example: ""
       envs:
         type: "string"
-        example: ""
       exposed_ports:
         type: "string"
-        example: ""
       memory_limitation:
         type: "integer"
         format: "int64"
-        example: 1024
       network_mode:
         type: "string"
-        example: "bridge"
       public_network:
         type: "boolean"
         default: false
@@ -2244,40 +2189,29 @@ definitions:
         default: true
       schedule_test_cluster:
         type: "string"
-        example: "zis"
       schedule_pre_cluster:
         type: "string"
-        example: "zis"
       schedule_prd_cluster:
         type: "string"
-        example: "zis"
       schedule_prd_node:
         type: "string"
-        example: ""
       schedule_pre_node:
         type: "string"
-        example: ""
       scheduler_test_node:
         type: "string"
-        example: ""
       schedule_type:
         type: "string"
-        example: "cluster"
       volumes:
         type: "string"
-        example: "/alidata1/admin/logs/zcloud:/alidata1/admin/zcloud/logs:rw"
       quantity:
         type: "integer"
         format: "int64"
-        example: 2
       pre_quantity:
         type: "integer"
         format: "int64"
-        example: 1
       test_quantity:
         type: "integer"
         format: "int64"
-        example: 1
       code_url:
         type: "string"
       code_branches:
@@ -2313,34 +2247,24 @@ definitions:
     properties:
       name:
         type: "string"
-        example: "test"
       display_name:
         type: "string"
-        example: "测试集群"
       registry:
         type: "string"
-        example: "test"
       docker_version:
         type: "string"
-        example: "1.12.6"
       network_plugin:
         type: "string"
-        example: "flannel"
       domain_suffix:
         type: "string"
-        example: "test.za-tech.net"
       status:
         type: "string"
-        example: "Running"
       certificate:
         type: "string"
-        example: "---hidden---"
       creator:
         type: "string"
-        example: "za-yuchangxi"
       create_at:
         type: "string"
-        example: "2017-07-14 16:00:36"
   ClusterRsp:
     type: "object"
     properties:
@@ -2364,22 +2288,16 @@ definitions:
     properties:
       name:
         type: "string"
-        example: "zis"
       desc:
         type: "string"
-        example: "共享平台"
       cpu_quota:
         type: "integer"
-        example: 10
       memory_quota:
         type: "integer"
-        example: 20
       creator:
         type: "string"
-        example: "za-yuchangxi"
       create_at:
         type: "string"
-        example: "2017-07-14 16:00:36"
   NamespaceRsp:
     type: "object"
     properties:
@@ -2413,169 +2331,111 @@ definitions:
     properties:
       ip:
         type: "string"
-        example: "10.139.54.228"
       password:
         type: "string"
-        example: "********"
       labels:
         type: "object"
-        example: {
-            "com.zhonganinfo.bizcluster": "zis",
-            "com.zhonganinfo.monitor": "monitor"
-        }
   NodeUpdate:
     type: "object"
     properties:
       labels:
         type: "object"
-        example: {
-            "com.zhonganinfo.bizcluster": "zis",
-            "com.zhonganinfo.monitor": "monitor"
-        }
   NodeFreeze:
     type: "object"
     properties:
       delete_pods:
         type: "boolean"
-        example: false
   ClusterNode:
     type: "object"
     properties:
       name:
         type: "string"
-        example: "10.139.54.228"
       cluster:
         type: "string"
-        example: "test"
       bizcluster:
         type: "string"
-        example: "biz"
       ip:
         type: "string"
-        example: "10.139.54.228"
       pod_cidr:
         type: "string"
-        example: "172.16.1.0/24"
       labels:
         type: "object"
-        example: {
-            "com.zhonganinfo.bizcluster": "zis",
-            "com.zhonganinfo.monitor": "monitor"
-        }
       cpu:
         type: "string"
-        example: "4"
       cpu_requests:
         type: "string"
-        example: "2"
       cpu_limits:
         type: "string"
-        example: "3"
       memory:
         type: "string"
-        example: "8174864Ki"
       memory_requests:
         type: "string"
-        example: "8174864Ki"
       memory_limits:
         type: "string"
-        example: "8174864Ki"
       creator:
         type: "string"
-        example: "za-yuchangxi"
       create_at:
         type: "string"
-        example: "2017-06-15 15:55:07"
       status:
         type: "string"
-        example: "Ready"
   ClusterNodeDetail:
     type: "object"
     properties:
       id:
         type: "integer"
-        example: "1"
       name:
         type: "string"
-        example: "10.139.54.228"
       cluster:
         type: "string"
-        example: "test"
       bizcluster:
         type: "string"
-        example: "biz"
       ip:
         type: "string"
-        example: "10.139.54.228"
       pod_cidr:
         type: "string"
-        example: "172.16.1.0/24"
       labels:
         type: "object"
-        example: {
-            "com.zhonganinfo.bizcluster": "zis",
-            "com.zhonganinfo.monitor": "monitor"
-        }
       cpu:
         type: "string"
-        example: "4"
       cpu_requests:
         type: "string"
-        example: "2"
       cpu_limits:
         type: "string"
-        example: "3"
       memory:
         type: "string"
-        example: "8174864Ki"
       memory_requests:
         type: "string"
-        example: "8174864Ki"
       memory_limits:
         type: "string"
-        example: "8174864Ki"
       creator:
         type: "string"
-        example: "za-yuchangxi"
       create_at:
         type: "string"
-        example: "2017-06-15 15:55:07"
       status:
         type: "string"
-        example: "Ready"
       systeminfo:
         type: "object"
         properties:
           machineID:
             type: "string"
-            example: "45461f76679f48ee96e95da6cc798cc8"
           systemUUID:
             type: "string"
-            example: "D40AB3A8-BBAD-4F56-BAA4-92168BCEC200"
           bootID:
             type: "string"
-            example: "ff9e9de1-6988-4bdd-9321-e7d522cccc8e"
           kernelVersion:
             type: "string"
-            example: "4.3.0-1.el7.elrepo.x86_64"
           osImage:
             type: "string"
-            example: "CentOS Linux 7 (Core)"
           containerRuntimeVersion:
             type: "string"
-            example: "docker://1.12.6"
           kubeletVersion:
             type: "string"
-            example: "v1.6.5"
           kubeProxyVersion:
             type: "string"
-            example: "v1.6.5"
           operatingSystem:
             type: "string"
-            example: "linux"
           architecture:
             type: "string"
-            example: "amd64"
       node_images:
         type: "array"
         items:
@@ -2583,13 +2443,8 @@ definitions:
           properties:
             names:
               type: "array"
-              example: [
-                    "10.253.6.113:5000/anlink/hostpath-provisioner@sha256:65d68446b6e26c57bec62300b867dc7829de55c598778bd131bcd5c14f2808b3",
-                    "10.253.6.113:5000/anlink/hostpath-provisioner:test"
-              ]
             size_mbytes:
               type: "integer"
-              example: "863"
   ClusterNodesRsp:
     type: "object"
     properties:
@@ -2621,25 +2476,18 @@ definitions:
           properties:
             name:
               type: "string"
-              example: "test-3557966101-56wh0"
             namespace:
               type: "string"
-              example: "test"
             nodeIP:
               type: "string"
-              example: "10.253.108.223"
             podIP:
               type: "string"
-              example: "172.16.53.2"
             image:
               type: "string"
-              example: "10.253.108.223:9080/test/nginx:latest"
             status:
               type: "string"
-              example: "Running"
             startTime:
               type: "string"
-              example: "2017-08-03 19:21:39"
   NodeSystemInfo:
     type: "object"
     properties:
@@ -2651,34 +2499,24 @@ definitions:
         properties:
           machineID:
             type: "string"
-            example: "45461f76679f48ee96e95da6cc798cc8"
           systemUUID:
             type: "string"
-            example: "996CA55D-E9CC-CE4D-8C23-336076B2E310"
           bootID:
             type: "string"
-            example: "f2ced408-493a-451a-883a-dc9245465616"
           kernelVersion:
             type: "string"
-            example: "4.3.0-1.el7.elrepo.x86_64"
           osImage:
             type: "string"
-            example: "CentOS Linux 7 (Core)"
           containerRuntimeVersion:
             type: "string"
-            example: "docker://1.12.6"
           kubeletVersion:
             type: "string"
-            example: "v1.6.4"
           kubeProxyVersion:
             type: "string"
-            example: "v1.6.4"
           operatingSystem:
             type: "string"
-            example: "linux"
           architecture:
             type: "string"
-            example: "amd64"
   NodeLabelReq:
     type: "object"
     properties:
@@ -2699,7 +2537,6 @@ definitions:
           properties:
             key:
               type: "string"
-              example: "value"
   PodItem:
     type: "object"
     properties:
@@ -3001,67 +2838,48 @@ definitions:
           properties:
             harbor_name:
               type: "string"
-              example: "tech"
             harbor_addr:
               type: "string"
-              example: "10.253.108.223:9080"
             harbor_desc:
               type: "string"
-              example: "科技仓库"
             harbor_user:
               type: "string"
-              example: "admin"
             harbor_password:
               type: "string"
-              example: "Harbor12345"
             harbor_email:
               type: "string"
-              example: "admin@zcloud.com"
             harbor_auth:
               type: "string"
-              example: "YWRtaW46SGFyYm9yMTIzNA=="
             create_at:
               type: "string"
-              example: "2017-07-10T17:31:43+08:00"
   HarborsReq:
     type: "object"
     properties:
       harbor_name:
         type: "string"
-        example: "tech"
       harbor_addr:
         type: "string"
-        example: "10.253.108.223:9080"
       harbor_desc:
         type: "string"
-        example: "科技仓库"
       harbor_user:
         type: "string"
-        example: "admin"
       harbor_password:
         type: "string"
-        example: "Harbor12345"
       harbor_email:
         type: "string"
-        example: "admin@zloud.com"
   HarborsUpdate:
     type: "object"
     properties:
       harbor_addr:
         type: "string"
-        example: "10.253.108.223:9080"
       harbor_desc:
         type: "string"
-        example: "科技仓库"
       harbor_user:
         type: "string"
-        example: "admin"
       harbor_password:
         type: "string"
-        example: "Harbor12345"
       harbor_email:
         type: "string"
-        example: "admin@zloud.com"
   HarborRsp:
     type: "object"
     properties:
@@ -3073,28 +2891,20 @@ definitions:
         properties:
           harbor_name:
             type: "string"
-            example: "tech"
           harbor_addr:
             type: "string"
-            example: "10.253.108.223:9080"
           harbor_desc:
             type: "string"
-            example: "科技仓库"
           harbor_user:
             type: "string"
-            example: "admin"
           harbor_password:
             type: "string"
-            example: "Harbor12345"
           harbor_email:
             type: "string"
-            example: "admin@zcloud.com"
           harbor_auth:
             type: "string"
-            example: "YWRtaW46SGFyYm9yMTIzNA=="
           create_at:
             type: "string"
-            example: "2017-07-10T17:31:43+08:00"
   HarborsRepositoriesRsp:
     type: "object"
     properties:
@@ -3109,25 +2919,19 @@ definitions:
             project_id:
               type: "integer"
               format: "int64"
-              example: 2
             project_name:
               type: "string"
-              example: "default"
             project_public:
               type: "integer"
               format: "int64"
-              example: 1
             pull_count:
               type: "integer"
               format: "int64"
-              example: 1
             repository_name:
               type: "string"
-              example: "default/nginx"
             tags_count:
               type: "integer"
               format: "int64"
-              example: 2
   HarborsRepositoriesTagsRsp:
     type: "object"
     properties:
@@ -3157,17 +2961,13 @@ definitions:
         enum:
         - "k8s_pod_cpu_usage_rate"
         - "k8s_pod_memory_usage"
-        example: "k8s_pod_cpu_usage_rate"
       Start:
         type: "string"
-        example: "2017-07-20T07:19:14.119Z"
       End:
         type: "string"
-        example: "2017-07-20T07:19:14.119Z"
       Duration:
         type: "integer"
         format: "10的整数倍"
-        example: 10
   MetricResponseBody:
     type: "object"
     properties:
@@ -3185,15 +2985,12 @@ definitions:
                 x:
                   type: "integer"
                   format: "int64"
-                  example: 1500534000000
                 y:
                   type: "integer"
                   format: "int64"
-                  example: 1462272
           metricName:
             type: "string"
             format: "Valid Prometheus Query Key"
-            example: "k8s_pod_memory_usage"
   RemoteShellResponseBody:
     type: "object"
     properties:
@@ -3205,10 +3002,6 @@ definitions:
         properties:
           id:
             type: "string"
-    example:
-      IsSuccess: true
-      Data:
-        id: "ad25b79f68861a80f1d04582a34c6647"
   RemoteExecResponseBody:
     type: "object"
     properties:
@@ -3217,7 +3010,6 @@ definitions:
         default: true
       Data:
         type: "string"
-        example: "real command response"
   statusResponseBody:
     type: "object"
     properties:
@@ -3230,15 +3022,12 @@ definitions:
           runningNum:
             type: "integer"
             format: "int"
-            example: "1"
           operatingNum:
             type: "integer"
             format: "int"
-            example: "1"
           stoppedNum:
             type: "integer"
             format: "int"
-            example: "1"
   rangeStatusResponseBody:
     type: "object"
     properties:
@@ -3258,16 +3047,6 @@ definitions:
               type: "string"
             objectName:
               type: "string"
-    example:
-      IsSuccess: true
-      Data:
-        - "dataPoints":
-          - x: 1502074365000
-            y: 0.1252472316075095
-          - x: 1502074375000
-            y: 0.12423751524969562
-          metricName: "k8s_node_cpu_usage_rate{instance=~'192.168.154.128.+'}"
-          objectName: ""
   eventResponseBody:
     type: "array"
     items:
@@ -3297,34 +3076,6 @@ definitions:
           type: "string"
         last_time:
           type: "string"
-    example:
-      - "cluster_name": "local"
-        "namespace": "default"
-        "event_level": "Normal"
-        "object_kind": "Node"
-        "object_name": "192.168.154.128"
-        "object_phase": "NodeHasSufficientDisk"
-        "object_message": "Node 192.168.154.128 status is now: NodeHasSufficientDisk"
-        "source_host": "192.168.154.128"
-        "last_time": "2017-09-18T10:31:11+08:00"
-      - "cluster_name": "local"
-        "namespace": "default"
-        "event_level": "Normal"
-        "object_kind": "Node"
-        "object_name": "192.168.154.128"
-        "object_phase": "NodeHasSufficientMemory"
-        "object_message": "Node 192.168.154.128 status is now: NodeHasSufficientMemory"
-        "source_host": "192.168.154.128"
-        "last_time": "2017-09-18T10:31:11+08:00"
-      - "cluster_name": "local"
-        "namespace": "default"
-        "event_level": "Normal"
-        "object_kind": "Node"
-        "object_name": "192.168.154.128"
-        "object_phase": "NodeHasNoDiskPressure"
-        "object_message": "Node 192.168.154.128 status is now: NodeHasNoDiskPressure"
-        "source_host": "192.168.154.128"
-        "last_time": "2017-09-18T10:31:11+08:00"
   appRangeStatusResponseBody:
     type: "object"
     properties:
@@ -3344,23 +3095,6 @@ definitions:
               type: "string"
             objectName:
               type: "string"
-    example:
-      IsSuccess: true
-      Data:
-        - "dataPoints":
-          - x: 1502074365000
-            y: 0.1252472316075095
-          - x: 1502074375000
-            y: 0.12423751524969562
-          metricName: "k8s_pod_network_ingress_rate{namespace='default',pod_name=~'test-3448979042-77jqx|test-3448979042-9nfb1'}"
-          objectName: "test-3448979042-77jqx"
-        - "dataPoints":
-          - x: 1502074365000
-            y: 0.1252472316075095
-          - x: 1502074375000
-            y: 0.12423751524969562
-          metricName: "k8s_pod_network_ingress_rate{namespace='default',pod_name=~'test-3448979042-77jqx|test-3448979042-9nfb1'}"
-          objectName: "test-3448979042-11wea"
   svcRangeStatusResponseBody:
     type: "object"
     properties:
@@ -3380,19 +3114,6 @@ definitions:
               type: "string"
             objectName:
               type: "string"
-    example:
-      IsSuccess: true
-      Data:
-      - dataPoints:
-        - {x: 1523937306431, y: 3.709558E-4}
-        - {x: 1523937316431, y: 3.875466E-4}
-        - {x: 1523937326431, y: 4.09854E-4}
-        - {x: 1523937336431, y: 3.249832E-4}
-        - {x: 1523937346431, y: 3.3670868E-4}
-        - {x: 1523937356431, y: 4.739254E-4}
-        - {x: 1523937366431, y: 3.514572E-4}
-        metricName: k8s_app_cpu_usage_rate {namespace='tech',app_name='technew-details'}
-        objectName: ''
   pointComponentStatusResponseBody:
     type: "object"
     properties:
@@ -3409,39 +3130,6 @@ definitions:
                 type: "array"
               prometheus:
                 type: "array"
-    example:
-      IsSuccess: true
-      Data:
-        kubernetes:
-          - instance: "10.253.8.80:6443"
-            job: "kubernetes-apiservers"
-            timestamp: "1502101002.192"
-            value: "1"
-          - beta_kubernetes_io_arch: amd64
-            beta_kubernetes_io_os: linux
-            com_zhonganinfo_bizcluster: tech
-            instance: 10.253.110.56
-            job: kubernetes-nodes
-            kubernetes_io_hostname: 10.253.110.56
-            monitor_node: 'true'
-            timestamp: '1502101002.192'
-            value: '1'
-        prometheus:
-          - app: "node-exporter"
-            instance: "10.253.24.174:9100"
-            job: "kubernetes-service-endpoints"
-            kubernetes_name: "node-exporter"
-            kubernetes_namespace: "kube-system"
-            name: "node-exporter"
-            timestamp: "1502101002.192"
-            value: "1"
-          - instance: 172.16.87.4:9090
-            job: kubernetes-service-endpoints
-            kubernetes_name: prometheus
-            kubernetes_namespace: kube-system
-            name: prometheus
-            timestamp: '1502101002.192'
-            value: '1'
   pointTopStatusResponseBody:
     type: "object"
     properties:
@@ -3461,21 +3149,6 @@ definitions:
               type: "string"
             value:
               type: "string"
-    example:
-      IsSuccess: true
-      Data:
-      - namespace: kube-system
-        pod_name: prometheus-2588616223-knhzr
-        timestamp: '1502101045.269'
-        value: '147542016'
-      - namespace: "kube-system"
-        pod_name: "kube-dns-v20-llj4c"
-        timestamp: "1502101045.269"
-        value: '10960896'
-      - namespace: "kube-system"
-        pod_name: "node-exporter-jt488"
-        timestamp: "1502101045.269"
-        value: '9940992'
   pointAppStatisticsResponseBody:
     type: "object"
     properties:
@@ -3628,197 +3301,7 @@ definitions:
                               type: "integer"
                             y:
                               type: "float"
-    example:
-      IsSuccess: true
-      Data:
-      - app_name: nginx
-        app_duration: 80000
-        app_average:
-          cpu: 8.544045319341266e-05
-          memory: 1238812.4444444445
-        app_average_quota:
-          cpu: 0.09999999999999999
-          memory: 134217728
-        app_total_usage:
-          cpu: 0.006835236255473012
-          memory: 99104995.55555555
-        app_total_quota:
-          cpu: 7.999999999999999
-          memory: 10737418240
-        app_usage_ratio:
-          cpu: 0.0008544045319341266
-          memory: 0.009229871961805556
-        pod_average:
-          cpu: 8.544045319341266e-05
-          memory: 1238812.4444444445
-        pod_average_quota:
-          cpu: 0.09999999999999999
-          memory: 134217728
-        pod_max:
-          cpu: 0.00016692242107916664
-          memory: 1466368
-        pod_recommend:
-          cpu: 0.00015060467422765717
-          memory: 1466368
-        pod_total_duration: 80000
-        pod_avg_number: 1
-        request_start_at: 1514021700000
-        request_end_at: 1514022060000
-        pods:
-        - pod_name: nginx-300138843-qjwt5
-          average:
-            cpu: 8.544045319341266e-05
-            memory: 1238812.4444444445
-          max:
-            cpu: 0.00016692242107916664
-            memory: 1466368
-          recommend:
-            cpu: 0.00015060467422765717
-            memory: 1466368
-          quota:
-            cpu: 0.09999999999999999
-            memory: 134217728
-          metrics:
-            cpu:
-            - x: 1514021990000
-              y: 0
-            - x: 1514022000000
-              y: 0.00016692242107916664
-            - x: 1514022010000
-              y: 0.00014319445022777775
-            - x: 1514022020000
-              y: 0.00014361135414843882
-            - x: 1514022030000
-              y: 0.00011489540209195812
-            - x: 1514022040000
-              y: 0.00011489999799995996
-            - x: 1514022050000
-              y: 0
-            - x: 1514022060000
-              y: 0
-            memory:
-            - x: 1514021980000
-              y: 442368
-            - x: 1514021990000
-              y: 442368
-            - x: 1514022000000
-              y: 1466368
-            - x: 1514022010000
-              y: 1466368
-            - x: 1514022020000
-              y: 1466368
-            - x: 1514022030000
-              y: 1466368
-            - x: 1514022040000
-              y: 1466368
-            - x: 1514022050000
-              y: 1466368
-            - x: 1514022060000
-              y: 1466368
-          duration: 80000
-          start_at: 1514021980000
-          end_at: 1514022060000
-        app_start_at: 1514021980000
-        app_end_at: 1514022060000
-        is_valid: true
-      - app_name: nginx02
-        app_duration: 100000
-        app_average:
-          cpu: 0.00016258851671068595
-          memory: 1335668.3636363635
-        app_average_quota:
-          cpu: 0.1
-          memory: 134217728
-        app_total_usage:
-          cpu: 0.016258851671068594
-          memory: 133566836.36363636
-        app_total_quota:
-          cpu: 10
-          memory: 13421772800
-        app_usage_ratio:
-          cpu: 0.0016258851671068595
-          memory: 0.00995150479403409
-        pod_average:
-          cpu: 0.00016258851671068595
-          memory: 1335668.3636363635
-        pod_average_quota:
-          cpu: 0.1
-          memory: 134217728
-        pod_max:
-          cpu: 0.0004766092202607189
-          memory: 1462272
-        pod_recommend:
-          cpu: 0.0003508087559144608
-          memory: 1462272
-        pod_total_duration: 100000
-        pod_avg_number: 1
-        request_start_at: 1514021700000
-        request_end_at: 1514022060000
-        pods:
-        - pod_name: nginx02-947571975-x4555
-          average:
-            cpu: 0.00016258851671068595
-            memory: 1335668.3636363635
-          max:
-            cpu: 0.0004766092202607189
-            memory: 1462272
-          recommend:
-            cpu: 0.00035080875591446083
-            memory: 1462272
-          quota:
-            cpu: 0.09999999999999999
-            memory: 134217728
-          metrics:
-            cpu:
-            - x: 1514021970000
-              y: 0.0004766092202607189
-            - x: 1514021980000
-              y: 0.0003368309265426544
-            - x: 1514021990000
-              y: 0.0002889361668833406
-            - x: 1514022000000
-              y: 0.0002898114905745288
-            - x: 1514022010000
-              y: 0.00023184687387495505
-            - x: 1514022020000
-              y: 1.8504889706617683e-06
-            - x: 1514022030000
-              y: 0
-            - x: 1514022040000
-              y: 0
-            - x: 1514022050000
-              y: 0
-            - x: 1514022060000
-              y: 0
-            memory:
-            - x: 1514021960000
-              y: 73728
-            - x: 1514021970000
-              y: 1458176
-            - x: 1514021980000
-              y: 1462272
-            - x: 1514021990000
-              y: 1462272
-            - x: 1514022000000
-              y: 1462272
-            - x: 1514022010000
-              y: 1462272
-            - x: 1514022020000
-              y: 1462272
-            - x: 1514022030000
-              y: 1462272
-            - x: 1514022040000
-              y: 1462272
-            - x: 1514022050000
-              y: 1462272
-            - x: 1514022060000
-              y: 1462272
-          duration: 100000
-          start_at: 1514021960000
-          end_at: 1514022060000
-        app_start_at: 1514021960000
-        app_end_at: 1514022060000
-        is_valid: true
+
   pointDiskStatusResponseBody:
     type: "object"
     properties:
@@ -3855,12 +3338,7 @@ definitions:
               type: "string"
             value:
               type: "string"
-    example:
-      IsSuccess: true
-      Data:
-      - instance: 10.139.49.11
-        timestamp: '1521773343.024'
-        value: '9'
+
   pointAppResponseBody:
     type: "object"
     properties:
@@ -3880,13 +3358,7 @@ definitions:
               type: "string"
             value:
               type: "string"
-    example:
-      IsSuccess: true
-      Data:
-      - app_name: '18-tech-za-test-java-app'
-        namespace: 'tech'
-        timestamp: '1521785604.296'
-        value: '1073741824'
+
   pointNodeResponseBody:
     type: "object"
     properties:
@@ -3904,12 +3376,7 @@ definitions:
               type: "string"
             value:
               type: "string"
-    example:
-      IsSuccess: true
-      Data:
-      - instance: "10.139.49.11:9100"
-        timestamp: '1521785604.296'
-        value: '0.14960000000020962'
+
   appBaseNameListResponseBody:
     type: "object"
     properties:
@@ -3918,16 +3385,7 @@ definitions:
         default: true
       Data:
         type: "array"
-    example:
-      IsSuccess: true
-      Data:
-      - awesome-monitor-visualization
-      - cf-chicken-data-center
-      - cf-chicken-query-center
-      - zt-out-exchange-user
-      - zt-out-exchange-wallet
-      - zt-out-exchange-wallet-channel
-      - zt-out-exchange-websocket
+
   promAppStatementsResponseBody:
     type: "object"
     properties:
@@ -3943,50 +3401,7 @@ definitions:
               type: "string"
             apps:
               type: "array"
-    example:
-      IsSuccess: true
-      Data:
-        kind: app
-        apps:
-        - app_name: 12258-tech-za-airdia-user
-          measurements:
-          - id: 7
-            app_name: 12258-tech-za-airdia-user
-            base_name: za-airdia-user
-            cluster: test
-            namespace: tech
-            cpu_average: 0.0025598105874973815
-            cpu_average_quota: 1
-            memory_average: 665268224
-            memory_average_quota: 1073741824
-            cpu_total_usage: 9.215318114990573
-            cpu_quota_total_usage: 3600
-            memory_total_usage: 2394965606400
-            memory_quota_total_usage: 3865470566400
-            cpu_usage_ratio: 0.0025598105874973815
-            memory_usage_ratio: 0.6195793151855469
-            pod_cpu_average: 0.0025598105874973815
-            pod_memory_average: 665268224
-            pod_cpu_average_quota: 1
-            pod_memory_average_quota: 1073741824
-            pod_cpu_recommend_quota: 0.003355007392747679
-            pod_memory_recommend_quota: 665268224
-            pod_total_duration: 3600000
-            app_duration: 3600000
-            pod_average_number: 1
-            is_valid: true
-            category_type: hourly
-            measurement:
-              id: 14
-              cluster_cpu_quota_total_usage: 1519585.5555555557
-              all_cluster_cpu_quota_total_usage: 1546665.5555555557
-              cluster_cpu_quota_total_usage_percent: 0.00236906700438058
-              all_cluster_cpu_quota_total_usage_percent: 0.0023275878790142805
-              cluster_memory_quota_total_usage: 1345233957199519.2
-              all_cluster_memory_quota_total_usage: 1452414078314232.2
-              cluster_memory_quota_total_usage_percent: 0.002873455985639151
-              all_cluster_memory_quota_total_usage_percent: 0.002661410836010706
-              measurement:
+
   promBaseNameStatementsResponseBody:
     type: "object"
     properties:
@@ -4002,60 +3417,7 @@ definitions:
               type: "string"
             base_names:
               type: "array"
-    example:
-      IsSuccess: true
-      Data:
-        kind: basename
-        base_names:
-        - base_name: za-airdia-user
-          measurements:
-          - id: 7
-            app_name: 12258-tech-za-airdia-user
-            base_name: za-airdia-user
-            cluster: test
-            namespace: tech
-            cpu_average: 0.0025598105874973815
-            cpu_average_quota: 1
-            memory_average: 665268224
-            memory_average_quota: 1073741824
-            cpu_total_usage: 9.215318114990573
-            cpu_quota_total_usage: 3600
-            memory_total_usage: 2394965606400
-            memory_quota_total_usage: 3865470566400
-            cpu_usage_ratio: 0.0025598105874973815
-            memory_usage_ratio: 0.6195793151855469
-            pod_cpu_average: 0.0025598105874973815
-            pod_memory_average: 665268224
-            pod_cpu_average_quota: 1
-            pod_memory_average_quota: 1073741824
-            pod_cpu_recommend_quota: 0.003355007392747679
-            pod_memory_recommend_quota: 665268224
-            pod_total_duration: 3600000
-            app_duration: 3600000
-            pod_average_number: 1
-            is_valid: true
-            category_type: hourly
-            measurement:
-              id: 14
-              cluster_cpu_quota_total_usage: 1519585.5555555557
-              all_cluster_cpu_quota_total_usage: 1546665.5555555557
-              cluster_cpu_quota_total_usage_percent: 0.00236906700438058
-              all_cluster_cpu_quota_total_usage_percent: 0.0023275878790142805
-              cluster_memory_quota_total_usage: 1345233957199519.2
-              all_cluster_memory_quota_total_usage: 1452414078314232.2
-              cluster_memory_quota_total_usage_percent: 0.002873455985639151
-              all_cluster_memory_quota_total_usage_percent: 0.002661410836010706
-              measurement:
-          summary:
-            cluster_cpu_quota_total_usage: 1519585.5555555557
-            all_cluster_cpu_quota_total_usage: 1546665.5555555557
-            cluster_cpu_quota_total_usage_percent: 0.00236906700438058
-            all_cluster_cpu_quota_total_usage_percent: 0.0023275878790142805
-            cluster_memory_quota_total_usage: 1345233957199519.2
-            all_cluster_memory_quota_total_usage: 1452414078314232.2
-            cluster_memory_quota_total_usage_percent: 0.002873455985639151
-            all_cluster_memory_quota_total_usage_percent: 0.002661410836010706
-          is_valid: true
+
   PrometheusPoints:
     type: "object"
     properties:
@@ -4079,11 +3441,7 @@ definitions:
         type: "string"
       Duration:
         type: "integer"
-    example:
-      MetricItem: "k8s_all_nodes_cpu_usage_rate"
-      Start: "2017-08-07T02:52:45.000Z"
-      End: "2017-08-07T03:52:45.000Z"
-      Duration: 10
+
   promNodeRangeRequsetBody:
     type: "object"
     properties:
@@ -4106,11 +3464,7 @@ definitions:
         type: "string"
       Duration:
         type: "integer"
-    example:
-      MetricItem: "k8s_node_cpu_usage_rate"
-      Start: "2017-08-07T02:52:45.000Z"
-      End: "2017-08-07T03:52:45.000Z"
-      Duration: 10
+
   promAppRangeRequsetBody:
     type: "object"
     properties:
@@ -4131,11 +3485,7 @@ definitions:
         type: "string"
       Duration:
         type: "integer"
-    example:
-      MetricItem: "k8s_pod_network_ingress_rate"
-      Start: "2017-08-07T02:52:45.000Z"
-      End: "2017-08-07T03:52:45.000Z"
-      Duration: 10
+
   promSvcRangeRequsetBody:
     type: "object"
     properties:
@@ -4152,18 +3502,13 @@ definitions:
         type: "string"
       Duration:
         type: "integer"
-    example:
-      MetricItem: "k8s_app_cpu_usage_rate"
-      Start: "2017-08-07T02:52:45.000Z"
-      End: "2017-08-07T03:52:45.000Z"
-      Duration: 10
+
   promPointRequsetBody:
     type: "object"
     properties:
       metric_item:
         type: "string"
-    example:
-      metric_item: "k8s_component_status"
+
   promTopNPointRequsetBody:
     type: "object"
     properties:
@@ -4172,14 +3517,12 @@ definitions:
         enum:
         - "sort_desc(topk(5, k8s_pod_memory_usage))"
         - "sort_desc(topk(5, k8s_pod_cpu_usage_rate))"
-    example:
-      metric_item: "sort_desc(topk(5, k8s_pod_memory_usage))"
+
   promNodesDiskPointRequsetBody:
     type: "object"
     properties:
       metric_item:
-    example:
-      metric_item: "k8s_node_disk_total_size"
+
   promNodePodAndCtnPointRequsetBody:
     type: "object"
     properties:
@@ -4188,8 +3531,7 @@ definitions:
         enum:
         - "k8s_per_node_pod_count"
         - "k8s_per_node_container_count"
-    example:
-      metric_item: "k8s_per_node_pod_count"
+
   promAppPointRequsetBody:
     type: "object"
     properties:
@@ -4200,8 +3542,7 @@ definitions:
         - "k8s_app_cpu_quota"
         - "k8s_app_cpu_usage_rate"
         - "k8s_app_memory_usage_rate"
-    example:
-      metric_item: "k8s_app_memory_usage_limit"
+
   promNodePointRequsetBody:
     type: "object"
     properties:
@@ -4210,8 +3551,7 @@ definitions:
         enum:
         - "k8s_node_cpu_usage_rate"
         - "k8s_node_available_memory_rate"
-    example:
-      metric_item: "k8s_node_cpu_usage_rate"
+
   promAppStatisticsRequsetBody:
     type: "object"
     properties:
@@ -4226,14 +3566,7 @@ definitions:
         description: "各自真实的资源空间名称或者是所有资源空间（all_namespaces）"
       apps_name:
         type: "array"
-    example:
-      start: '2017-12-23T08:00:00.000Z'
-      end: '2017-12-23T09:30:00.000Z'
-      interval: 10
-      namespace: labs
-      apps_name:
-      - nginx01
-      - nginx02
+
   promAppStatementsRequsetBody:
     type: "object"
     properties:
@@ -4251,15 +3584,7 @@ definitions:
         type: "string"
       kind:
         type: "string"
-    example:
-      interval: hourly
-      cluster: test
-      namespace: tech
-      apps:
-      - 12258-tech-za-airdia-user
-      start: 1516068000000
-      end: 1516071600000
-      kind: app
+
   promBaseNameStatementsRequsetBody:
     type: "object"
     properties:
@@ -4277,15 +3602,7 @@ definitions:
         type: "string"
       kind:
         type: "string"
-    example:
-      interval: hourly
-      cluster: test
-      namespace: tech
-      base_names:
-      - za-airdia-user
-      start: 1516068000000
-      end: 1516071600000
-      kind: basename
+
   Secret:
     type: "object"
     properties:
@@ -4709,7 +4026,6 @@ definitions:
       spec:
         $ref: "#/definitions/Template"
         description: "encode by json to a string data"
-        example: "{\"application-name1\": {\"containers\": [{\"name\":\"za-ms-code\",\"image\": \"10.139.49.97:5050/zis/za-ms-code:14099\",\"image_pull_policy\": \"Always\",\"resources\": {\"limits\": {\"cpu\":\"0.5\", \"memory\": \"1024M\"}}}],\"deploy\": {\"kind\": \"deployment\",\"replicas\": 1}}}"
       creator:
         type: "string"
       create_at:
@@ -4748,28 +4064,20 @@ definitions:
     properties:
       name:
         type: "string"
-        example: "test-job"
       image:
         type: "string"
-        example: "10.253.108.223:9080/default/busybox:latest"
       cron_schedule:
         type: "string"
-        example: "*/1 * * * *"
       timeout:
         type: "integer"
-        example: "60"
       command:
         type: "string"
-        example: "echo hello world"
       cpu:
         type: "integer"
-        example: "1"
       memory:
         type: "integer"
-        example: "1024"
       env_variable:
         type: "string"
-        example: "a=b,c=d"
       start_now:
         type: "boolean"
         default: false
@@ -4778,49 +4086,34 @@ definitions:
     properties:
       kind:
         type: "string"
-        example: "CronJob"
       cluster:
         type: "string"
-        example: "test"
       namespace:
         type: "string"
-        example: "default"
       name:
         type: "string"
-        example: "test-job"
       image:
         type: "string"
-        example: "10.253.108.223:9080/default/busybox:latest"
       cron_schedule:
         type: "string"
-        example: "*/1 * * * *"
       timeout:
         type: "integer"
-        example: "60"
       command:
         type: "string"
-        example: "echo hello world"
       cpu:
         type: "integer"
-        example: "1"
       memory:
         type: "integer"
-        example: "1024"
       env_variable:
         type: "string"
-        example: "a=b,c=d"
       creator:
         type: "string"
-        example: "admin"
       create_at:
         type: "string"
-        example: "2017-09-11 16:31:08"
       last_schedule:
         type: "string"
-        example: "2017-09-11 16:31:08"
       status:
         type: "string"
-        example: "failed"
       jobs_history:
         type: "array"
         items:
@@ -4828,19 +4121,14 @@ definitions:
           properties:
             name:
               type: "string"
-              example: "test-job-1505118660-2rx53"
             Status:
               type: "string"
-              example: "failed"
             Reason:
               type: "string"
-              example: "DeadlineExceeded"
             Message:
               type: "string"
-              example: "Job was active longer than specified deadline"
             start_time:
               type: "string"
-              example: "2017-09-11 16:31:08"
   JobInspect:
     type: "object"
     properties:
@@ -4966,69 +4254,7 @@ definitions:
               type: "string"
             delete_at:
               type: "string"
-    example:
-      IsSuccess: true
-      Data:
-      - id: 1
-        name: alert_node_memory
-        description: alert_node_memory
-        duration: 9000000000
-        operator: ">"
-        threshold: 70
-        severity_level: critical
-        namespace: monitor_admin
-        cluster: local
-        base_rule:
-          id: 2
-          alert_name: NodeLowAvailableMemoryRate
-          metric_name: k8s_node_available_memory_rate
-          filter_key: instance
-          summary: Available memory rate of the node {{"{{ $labels."}}{{.BaseRule.FilterKey
-            }}{{" }}"}} is {{ .Operator | convertOperator}} {{ .Threshold | formatPercent
-            }}
-          description: Available memory rate of the node {{"{{ $labels."}}{{.BaseRule.FilterKey
-            }}{{" }}"}} is {{"{{ $value }}"}}, and it's {{ .Operator | convertOperator}}
-            {{ .Threshold | formatPercent }} for more than {{ .Duration }}.
-          object: node
-          type: memory
-          deleted: 0
-          create_at: '2017-10-26T14:34:44+08:00'
-          update_at: '2017-10-26T14:34:44+08:00'
-          delete_at: '1970-01-01T08:00:00+08:00'
-        node:
-          id: 2
-          name: 192.168.152.129
-          cluster: local
-          biz_cluster: zis
-          ip: 192.168.152.129
-          pod_cidr: 172.16.1.0/24
-          labels: '{"com.zhonganinfo.bizcluster":"zis","com.zhonganinfo.monitor":"monitor"}'
-          cpu: '4'
-          cpu_requests: '3.2'
-          cpu_limits: '5.1'
-          memory: 7.698G
-          memory_requests: 5.117G
-          memory_limits: 7.666G
-          status: Offline
-          init_status: ''
-          creator: Admin
-          department_rule:
-          deleted: 1
-          create_at: '2017-10-18T15:05:41+08:00'
-          update_at: '2017-10-20T18:27:58+08:00'
-          delete_at: '2017-10-26T15:46:01+08:00'
-        department_config:
-          id: 1
-          deleted: 0
-          create_at: '0001-01-01T00:00:00Z'
-          update_at: '0001-01-01T00:00:00Z'
-          delete_at: '0001-01-01T00:00:00Z'
-          department_config_email:
-          department_rule:
-        deleted: 0
-        create_at: '2017-10-26T19:01:25+08:00'
-        update_at: '2017-10-26T19:01:25+08:00'
-        delete_at: '1970-01-01T08:00:00+08:00'
+
   CreateAlertRequestBody:
     type: "object"
     properties:
@@ -5072,19 +4298,7 @@ definitions:
         type: "integer"
       admin_rule:
         type: "boolean"
-    example:
-      name: alert_node_cpu_n
-      description: alert_node_cpu
-      duration: 9000000000
-      operator: "<"
-      threshold: 70
-      severity: note
-      type: cpu
-      object: node
-      node_id: 7
-      namespace: default
-      admin_rule: true
-      config_id: 1
+
   CreateComponentAlertRequestBody:
     type: "object"
     properties:
@@ -5120,16 +4334,7 @@ definitions:
         type: "string"
       admin_rule:
         type: "boolean"
-    example:
-      name: alert_component
-      description: alert_component
-      duration: 9000000000
-      severity: note
-      type: status
-      object: component
-      namespace: default
-      admin_rule: true
-      config_id: 1
+
   EmptyResponseBody:
     type: "object"
     properties:
@@ -5138,9 +4343,7 @@ definitions:
         default: true
       Data:
         type: "string"
-    example:
-      IsSuccess: true
-      Data: ''
+
   UpdateAlertRequestBody:
     type: "object"
     properties:
@@ -5160,19 +4363,13 @@ definitions:
         - ">="
       threshold:
         type: "integer"
-    example:
-      name: alert_node_cpu_n
-      description: alert_node_cpu
-      duration: 9000000000
-      operator: "<"
-      threshold: 70
+
   RefresgAllAlertsRequestBody:
     type: "object"
     properties:
       action:
         type: "string"
-    example:
-      action: "refresh_all"
+
   GetSpecificAlertResponseBody:
     type: "object"
     properties:
@@ -5214,59 +4411,7 @@ definitions:
             type: "string"
           delete_at:
             type: "string"
-    example:
-      IsSuccess: true
-      Data:
-        id: 6
-        name: alert_node_memory
-        description: ''
-        duration: 9000000000
-        operator: ">"
-        threshold: 70
-        severity_level: critical
-        namespace: monitor_admin
-        cluster: local
-        base_rule:
-          id: 2
-          alert_name: ''
-          metric_name: ''
-          filter_key: ''
-          summary: ''
-          description: ''
-          object: ''
-          type: ''
-          deleted: 0
-          create_at: '0001-01-01T00:00:00Z'
-          update_at: '0001-01-01T00:00:00Z'
-          delete_at: '0001-01-01T00:00:00Z'
-          department_rule:
-        app:
-        node:
-          id: 7
-          name: ''
-          cluster: ''
-          biz_cluster: ''
-          ip: ''
-          pod_cidr: ''
-          labels: ''
-          cpu: ''
-          cpu_requests: ''
-          cpu_limits: ''
-          memory: ''
-          memory_requests: ''
-          memory_limits: ''
-          status: ''
-          init_status: ''
-          creator: ''
-          department_rule:
-          deleted: 0
-          create_at: '0001-01-01T00:00:00Z'
-          update_at: '0001-01-01T00:00:00Z'
-          delete_at: '0001-01-01T00:00:00Z'
-        deleted: 0
-        create_at: '2017-10-20T16:18:34+08:00'
-        update_at: '2017-10-20T16:18:34+08:00'
-        delete_at: '1970-01-01T08:00:00+08:00'
+
   GetAllConfigsResponseBody:
     type: "object"
     properties:
@@ -5295,38 +4440,7 @@ definitions:
               type: "string"
             delete_at:
               type: "string"
-    example:
-      IsSuccess: true
-      Data:
-      - id: 1
-        department: default
-        object_type: pod
-        object_name: test_app1
-        interval: 120000000000
-        cluster: local
-        deleted: 0
-        create_at: '2017-10-20T14:28:51+08:00'
-        update_at: '2017-10-20T14:28:51+08:00'
-        delete_at: '1970-01-01T08:00:00+08:00'
-        department_config_email:
-        - id: 1
-          address: 493985133@qq.com
-          deleted: 0
-          create_at: '2017-10-20T14:28:51+08:00'
-          update_at: '2017-10-20T14:28:51+08:00'
-          delete_at: '1970-01-01T08:00:00+08:00'
-          department_config:
-            id: 1
-            department: ''
-            object_type: ''
-            object_name: ''
-            interval: 0
-            cluster: ''
-            deleted: 0
-            create_at: '0001-01-01T00:00:00Z'
-            update_at: '0001-01-01T00:00:00Z'
-            delete_at: '0001-01-01T00:00:00Z'
-            department_config_email:
+
   CreateConfigRequestBody:
     type: "object"
     properties:
@@ -5342,14 +4456,7 @@ definitions:
         type: "string"
       namespace:
         type: "string"
-    example:
-      emails:
-      - xxxxxxxxxx@qq.com
-      repeat_interval: 120000000000
-      admin_config: false
-      object_name: test_app1
-      object_type: pod
-      namespace: default
+
   CreateAdminConfigRequestBody:
     type: "object"
     properties:
@@ -5366,12 +4473,7 @@ definitions:
         type: "string"
       namespace:
         type: "string"
-    example:
-      emails:
-      - xxxxxxxxxx@qq.com
-      repeat_interval: 120000000000
-      admin_config: true
-      namespace: default
+
   updateConfigRequestBody:
     type: "object"
     properties:
@@ -5383,10 +4485,7 @@ definitions:
               type: "string"
       repeat_interval:
         type: "integer"
-    example:
-      emails:
-      - username: xxxxxxxxxx@qq.com
-      repeat_interval: 120000000000
+
   GetSpecificConfigsResponseBody:
     type: "object"
     properties:
@@ -5414,38 +4513,7 @@ definitions:
             type: "string"
           delete_at:
             type: "string"
-    example:
-      IsSuccess: true
-      Data:
-        id: 3
-        department: default
-        object_type: pod
-        object_name: test_app1
-        interval: 120000000000
-        cluster: local
-        deleted: 0
-        create_at: '2017-10-20T16:00:04+08:00'
-        update_at: '2017-10-20T16:00:04+08:00'
-        delete_at: '1970-01-01T08:00:00+08:00'
-        department_config_email:
-        - id: 7
-          address: 493985133@qq.com
-          deleted: 0
-          create_at: '2017-10-20T16:00:04+08:00'
-          update_at: '2017-10-20T16:00:04+08:00'
-          delete_at: '1970-01-01T08:00:00+08:00'
-          department_config:
-            id: 3
-            department: ''
-            object_type: ''
-            object_name: ''
-            interval: 0
-            cluster: ''
-            deleted: 0
-            create_at: '0001-01-01T00:00:00Z'
-            update_at: '0001-01-01T00:00:00Z'
-            delete_at: '0001-01-01T00:00:00Z'
-            department_config_email:
+
   IstioService:
     type: "object"
     properties:
@@ -5538,13 +4606,10 @@ definitions:
         description: "traffic edge destination"
       start:
         type: "string"
-        example: "2018-01-04T07:35:23.182Z"
       end:
         type: "string"
-        example: "2018-01-04T08:35:23.182Z"
       duration:
         type: "integer"
-        example: "2"
         description: "interval time, second"
   QueryResult:
     type: "object"
@@ -5638,8 +4703,7 @@ definitions:
     properties:
       Command:
         type: "string"
-    example:
-      Command: "ls -al"
+
   AppTraceList:
     type: "object"
     properties:

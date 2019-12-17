@@ -8,7 +8,7 @@ import (
 	"kubecloud/common/keyword"
 	"kubecloud/gitops"
 
-	"k8s.io/kubernetes/pkg/util/labels"
+	"kubecloud/backend/util/labels"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"

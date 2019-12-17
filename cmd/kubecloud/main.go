@@ -1,14 +1,14 @@
 package main
 
 import (
-	"flag"
+	//"flag"
 	"runtime"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	_ "github.com/astaxie/beego/session/mysql"
 
-	kubelogs "k8s.io/apiserver/pkg/util/logs"
+	//kubelogs "k8s.io/apiserver/pkg/util/logs"
 	"kubecloud/backend/controllermanager"
 	_ "kubecloud/backend/controllermanager/register"
 	"kubecloud/backend/models"
@@ -22,9 +22,9 @@ func init() {
 	service.Init()
 
 	// for glog
-	kubelogs.InitLogs()
-	defer kubelogs.FlushLogs()
-	flag.Parse()
+	//kubelogs.InitLogs()
+	//defer kubelogs.FlushLogs()
+	//flag.Parse()
 
 	logFilename := beego.AppConfig.String("log::logfile")
 	logLevel := beego.AppConfig.String("log::level")

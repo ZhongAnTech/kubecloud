@@ -13,9 +13,9 @@ data:
 
     [k8s]
     configPath = ./k8sconfig
-    domainSuffix = test.za-tech.net
-    defaultDepartment = zis
-    defaultBizCluster = zis
+    domainSuffix =
+    defaultDepartment =
+    defaultBizCluster =
     timeout = 120
     nodeMgrYamlsPath=./yamls
     resourcelock_namespace = kubecloud

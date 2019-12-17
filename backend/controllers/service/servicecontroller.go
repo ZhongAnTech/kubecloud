@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"kubecloud/backend/controllers/util"
-	dao "kubecloud/backend/dao"
+	"kubecloud/backend/dao"
 
 	"github.com/astaxie/beego"
 
@@ -17,7 +17,6 @@ import (
 	corelisters "k8s.io/client-go/listers/core/v1"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/util/workqueue"
-	"k8s.io/kubernetes/pkg/controller"
 )
 
 const (
@@ -90,7 +89,7 @@ func (sc *ServiceController) Run(workers int, stopCh <-chan struct{}) {
 }
 
 func (sc *ServiceController) enqueue(svc *core.Service) {
-	key, err := controller.KeyFunc(svc)
+	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(svc)
 	if err != nil {
 		beego.Error(fmt.Errorf("Couldn't get key for object %#v: %v", svc, err))
 		return

@@ -47,13 +47,6 @@ type NodeCreate struct {
 	DeployMode string     `json:"deploy_mode"`
 }
 
-//type DeployNodeInfo struct {
-//	Registry    string     `json:"registry"`
-//	MasterIPs   []string   `json:"master"`
-//	NodeIPs     []NodeInfo `json:"node"`
-//	KubeVersion string     `json:"kube_version"`
-//}
-
 func (create *NodeCreate) Verify(cluster string) error {
 	c, err := dao.GetCluster(cluster)
 	if err != nil {
@@ -666,7 +659,7 @@ func GetNodeUsedResource(cluster, node string) (*NodeUsedResource, error) {
 		return nil, err
 	}
 
-	podList, err := client.Core().Pods(corev1.NamespaceAll).List(metav1.ListOptions{
+	podList, err := client.CoreV1().Pods(corev1.NamespaceAll).List(metav1.ListOptions{
 		FieldSelector: fieldSelector.String(),
 	})
 	if err != nil {
@@ -699,10 +692,10 @@ func GetNodeUsedResource(cluster, node string) (*NodeUsedResource, error) {
 func getPodsTotalRequestsAndLimits(podList *corev1.PodList) (reqs map[corev1.ResourceName]resource.Quantity, limits map[corev1.ResourceName]resource.Quantity) {
 	reqs, limits = map[corev1.ResourceName]resource.Quantity{}, map[corev1.ResourceName]resource.Quantity{}
 	for _, pod := range podList.Items {
-		podReqs, podLimits := podRequestsAndLimits(&pod)
+		podReqs, podLimits := PodRequestsAndLimits(&pod)
 		for podReqName, podReqValue := range podReqs {
 			if value, ok := reqs[podReqName]; !ok {
-				reqs[podReqName] = *podReqValue.Copy()
+				reqs[podReqName] = podReqValue.DeepCopy()
 			} else {
 				value.Add(podReqValue)
 				reqs[podReqName] = value
@@ -710,7 +703,7 @@ func getPodsTotalRequestsAndLimits(podList *corev1.PodList) (reqs map[corev1.Res
 		}
 		for podLimitName, podLimitValue := range podLimits {
 			if value, ok := limits[podLimitName]; !ok {
-				limits[podLimitName] = *podLimitValue.Copy()
+				limits[podLimitName] = podLimitValue.DeepCopy()
 			} else {
 				value.Add(podLimitValue)
 				limits[podLimitName] = value
@@ -720,7 +713,11 @@ func getPodsTotalRequestsAndLimits(podList *corev1.PodList) (reqs map[corev1.Res
 	return
 }
 
-func podRequestsAndLimits(pod *corev1.Pod) (reqs, limits corev1.ResourceList) {
+// PodRequestsAndLimits returns a dictionary of all defined resources summed up for all
+// containers of the pod. If pod overhead is non-nil, the pod overhead is added to the
+// total container resource requests and to the total container limits which have a
+// non-zero quantity.
+func PodRequestsAndLimits(pod *corev1.Pod) (reqs, limits corev1.ResourceList) {
 	reqs, limits = corev1.ResourceList{}, corev1.ResourceList{}
 	for _, container := range pod.Spec.Containers {
 		addResourceList(reqs, container.Resources.Requests)
@@ -731,6 +728,18 @@ func podRequestsAndLimits(pod *corev1.Pod) (reqs, limits corev1.ResourceList) {
 		maxResourceList(reqs, container.Resources.Requests)
 		maxResourceList(limits, container.Resources.Limits)
 	}
+
+	// Add overhead for running a pod to the sum of requests and to non-zero limits:
+	if pod.Spec.Overhead != nil {
+		addResourceList(reqs, pod.Spec.Overhead)
+
+		for name, quantity := range pod.Spec.Overhead {
+			if value, ok := limits[name]; ok && !value.IsZero() {
+				value.Add(quantity)
+				limits[name] = value
+			}
+		}
+	}
 	return
 }
 
@@ -738,7 +747,7 @@ func podRequestsAndLimits(pod *corev1.Pod) (reqs, limits corev1.ResourceList) {
 func addResourceList(list, new corev1.ResourceList) {
 	for name, quantity := range new {
 		if value, ok := list[name]; !ok {
-			list[name] = *quantity.Copy()
+			list[name] = quantity.DeepCopy()
 		} else {
 			value.Add(quantity)
 			list[name] = value
@@ -751,11 +760,11 @@ func addResourceList(list, new corev1.ResourceList) {
 func maxResourceList(list, new corev1.ResourceList) {
 	for name, quantity := range new {
 		if value, ok := list[name]; !ok {
-			list[name] = *quantity.Copy()
+			list[name] = quantity.DeepCopy()
 			continue
 		} else {
 			if quantity.Cmp(value) > 0 {
-				list[name] = *quantity.Copy()
+				list[name] = quantity.DeepCopy()
 			}
 		}
 	}
