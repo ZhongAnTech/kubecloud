@@ -1,0 +1,4901 @@
+swagger: "2.0"
+info:
+  description: "容器云API文档"
+  version: "v1"
+  title: "容器云API文档"
+host: "127.0.0.1:8080"
+basePath: "kubecloud/api/v1"
+tags:
+- name: "clusters"
+  description: "集群管理API"
+- name: "events"
+  description: "事件"
+- name: "version"
+  description: "版本"
+- name: "namespaces"
+  description: "资源空间API"
+- name: "apps"
+  description: "应用管理"
+- name: "harbors"
+  description: "镜像仓库API"
+- name: "ingresses"
+  description: "Ingress API"
+- name: "secrets"
+  description: "secret API"
+- name: "services"
+  description: "服务 API"
+schemes:
+- "http"
+paths:
+  /clusters/{cluster}/namespaces/list:
+    post:
+      tags:
+      - "namespaces"
+      summary: "获取资源空间列表"
+      description: ""
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/NamespaceListRsp"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/namespaces:
+    post:
+      tags:
+      - "namespaces"
+      summary: "创建一个新的资源空间"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/Namespace"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/NamespaceRsp"
+        400:
+          description: "Bad Request"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}:
+    get:
+      tags:
+      - "namespaces"
+      summary: "查看资源空间的详细信息"
+      description: ""
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "namespace"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/NamespaceRsp"
+        500:
+          description: "Internal Server Error"
+    put:
+      tags:
+        - "namespaces"
+      summary: "更新资源空间配置信息"
+      description: ""
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "namespace"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/Namespace"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/NamespaceRsp"
+        400:
+          description: "Bad Request"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+    delete:
+      tags:
+        - "namespaces"
+      summary: "删除资源空间"
+      description: ""
+      parameters:
+      - name: "namespace"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /clusters:
+    get:
+      tags:
+      - "clusters"
+      summary: "获取集群列表"
+      description: ""
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ClusterListRsp"
+        500:
+          description: "Internal Server Error"
+    post:
+      tags:
+      - "clusters"
+      summary: "创建一个新的集群"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/Cluster"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ClusterRsp"
+        400:
+          description: "Bad Request"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}:
+    get:
+      tags:
+      - "clusters"
+      summary: "查看集群的详细信息"
+      description: ""
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ClusterRsp"
+        500:
+          description: "Internal Server Error"
+    put:
+      tags:
+        - "clusters"
+      summary: "更新集群配置信息"
+      description: ""
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/Cluster"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ClusterRsp"
+        400:
+          description: "Bad Request"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+    delete:
+      tags:
+        - "clusters"
+      summary: "删除集群"
+      description: ""
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/nodes:
+    get:
+      tags:
+      - "clusters"
+      summary: "获取集群下的节点列表"
+      description: ""
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "bizcluster"
+        in: "query"
+        description: "逻辑集群标签"
+        required: false
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ClusterNodesRsp"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/nodes/{node}:
+    get:
+      tags:
+      - "clusters"
+      summary: "获取集群下的某个节点详细信息"
+      description: ""
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "node"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ClusterNodeDetailRsp"
+        500:
+          description: "Internal Server Error"
+    put:
+      tags:
+      - "clusters"
+      summary: "更新节点信息（标签）"
+      description: ""
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: "集群名称"
+        required: true
+        type: "string"
+      - name: "node"
+        in: "path"
+        description: "主机名称（IP）"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/NodeUpdate"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+        500:
+          description: "Internal Server Error"
+    delete:
+      tags:
+        - "clusters"
+      summary: "删除节点"
+      description: ""
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: "集群名称"
+        required: true
+        type: "string"
+      - name: "node"
+        in: "path"
+        description: "主机名称（IP）"
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/nodes/{node}/freeze:
+    post:
+      tags:
+      - "clusters"
+      summary: "对集群下某运行中的节点进行维护"
+      description: ""
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "node"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/NodeFreeze"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/nodes/{node}/unfreeze:
+    post:
+      tags:
+      - "clusters"
+      summary: "对集群下某维护中的节点进行恢复"
+      description: ""
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "node"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/nodes/{node}/pods:
+    get:
+      tags:
+      - "clusters"
+      summary: "获取集群下的某个节点的Pod列表"
+      description: ""
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "node"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/NodePods"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/nodes/{node}/event:
+    get:
+      tags:
+      - "clusters"
+      summary: "获取集群下的某个节点的事件"
+      description: ""
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "node"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Events"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/apps:
+    post:
+      tags:
+      - "apps"
+      summary: "创建一个新的应用"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "namespace"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "projectId"
+        in: "query"
+        required: true
+        type: "integer"
+      - name: "force"
+        in: "query"
+        required: true
+        type: "boolean"
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/TemplateSpec"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Success"
+        400:
+          description: "Bad Request"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/apps/rollingupdate:
+    post:
+      tags:
+      - "apps"
+      summary: "批量应用滚动升级"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "namespace"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/BatchRollingUpdateParam"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Success"
+        400:
+          description: "Bad Request"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/apps/list:
+    post:
+      tags:
+      - "apps"
+      summary: "获取应用列表"
+      description: ""
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "namespace"
+        in: "path"
+        description: "如果为all则查询所有"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "support filter key:namespace|name|template_name|image|creator|create_at|kind"
+        required: true
+        schema:
+          $ref: "#/definitions/FilterQuery"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation, you can see type AppsQueryList, if you use query conditions!"
+          schema:
+            $ref: "#/definitions/AppsQueryList"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/apps/{appname}:
+    get:
+      tags:
+      - "apps"
+      summary: "获取应用详细信息"
+      description: ""
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "namespace"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "appname"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/AppInspectRsp"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+    delete:
+      tags:
+      - "apps"
+      summary: "删除应用"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "namespace"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "appname"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Success"
+        400:
+          description: "Bad Request"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/apps/{appname}/restart:
+    post:
+      tags:
+      - "apps"
+      summary: "重启应用"
+      description: ""
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "namespace"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "appname"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Success"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/apps/{appname}/rollingupdate:
+    post:
+      tags:
+      - "apps"
+      summary: "应用滚动升级"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "namespace"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "appname"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/ContainerParam"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Success"
+        400:
+          description: "Bad Request"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/apps/{appname}/reconfigure:
+      post:
+        tags:
+        - "apps"
+        summary: "应用配置更新"
+        description: ""
+        produces:
+        - "application/json"
+        parameters:
+        - name: "cluster"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "namespace"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "appname"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "body"
+          in: "body"
+          description: "应用配置"
+          required: true
+          schema:
+            $ref: "#/definitions/TemplateItem"
+        responses:
+          200:
+            description: "successful operation"
+            schema:
+              $ref: "#/definitions/Success"
+          400:
+            description: "Bad Request"
+          403:
+            description: "Forbidden"
+          404:
+            description: "NotFound"
+          500:
+            description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/apps/{appname}/scale:
+    post:
+      tags:
+      - "apps"
+      summary: "应用水平扩展"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "namespace"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "appname"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "scaleBy"
+        in: "query"
+        description: "扩展实例数量"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Success"
+        400:
+          description: "Bad Request"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/apps/{appname}/log:
+    post:
+      tags:
+      - "apps"
+      summary: "查看应用日志"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "namespace"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "appname"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "podName"
+        in: "query"
+        description: ""
+        required: true
+        type: "string"
+      - name: "containerName"
+        in: "query"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/AppLog"
+        400:
+          description: "Bad Request"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/apps/{appname}/event:
+    get:
+      tags:
+      - "apps"
+      summary: "查看应用事件"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "namespace"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "appname"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Events"
+        400:
+          description: "Bad Request"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/apps/{app}/pods/{podname}/containernames/{containername}/terminal:
+    get:
+      tags:
+      - "apps"
+      summary: "获取远程命令的sessionID,用于前端建立sock连接"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "namespace"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "podname"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "containername"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/RemoteShellResponseBody"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/apps/{app}/pods/{podname}/containernames/{containername}/exec:
+    post:
+      tags:
+      - "apps"
+      summary: "获取远程命令结果"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "namespace"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "podname"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "containername"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        description: "请求体"
+        required: true
+        schema:
+          $ref: "#/definitions/ExecRequestBody"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/RemoteExecResponseBody"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/apps/{app}/label:
+    post:
+      tags:
+      - "apps"
+      summary: "设置应用标签"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "namespace"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "app"
+        in: "path"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/AppLabel"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Success"
+        400:
+          description: "Bad Request"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/secrets:
+    post:
+      tags:
+        - "secrets"
+      summary: "创建secret"
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "cluster"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "namespace"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "body"
+          in: "body"
+          description: "secret information"
+          required: false
+          type: "object"
+          schema:
+            $ref: "#/definitions/SecretInfo"
+      responses:
+          200:
+            description: "successful operation"
+            schema:
+              $ref: "#/definitions/CreateSecret"
+          400:
+            description: "Bad Request"
+          403:
+            description: "Forbidden"
+          500:
+            description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/secrets/list:
+    post:
+      tags:
+      - "secrets"
+      summary: "获取secret列表"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "namespace"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "support filter key:namespace|name|description|creator|create_at"
+        required: true
+        schema:
+          $ref: "#/definitions/FilterQuery"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+          $ref: "#/definitions/Secrets"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/secrets/{secretname}:
+    put:
+      tags:
+        - "secrets"
+      summary: "更新secret"
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "cluster"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "namespace"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "body"
+          in: "body"
+          description: "secret information"
+          required: false
+          type: "object"
+          schema:
+            $ref: "#/definitions/SecretInfo"
+      responses:
+          200:
+            description: "successful operation"
+            schema:
+              $ref: "#/definitions/CreateSecret"
+          400:
+            description: "Bad Request"
+          403:
+            description: "Forbidden"
+          500:
+            description: "Internal Server Error"
+    delete:
+      tags:
+      - "secrets"
+      summary: "删除secret"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cluster"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "namespace"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "secretname"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Success"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not found"
+        500:
+          description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/ingresses:
+    post:
+      tags:
+        - "ingresses"
+      summary: "创建ingress"
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "cluster"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "namespace"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "body"
+          in: "body"
+          description: "ingress information"
+          required: true
+          schema:
+            $ref: "#/definitions/IngressBody"
+      responses:
+          200:
+            description: "successful operation"
+            schema:
+              $ref: "#/definitions/Success"
+          400:
+            description: "Bad Request"
+          403:
+            description: "Forbidden"
+          500:
+            description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/ingresses/list:
+    post:
+      tags:
+        - "ingresses"
+      summary: "获取ingress列表"
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "cluster"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "namespace"
+          in: "path"
+          description: "if you want get all namespaces' ingress, namespace is all"
+          type: "string"
+          required: true
+        - name: "appname"
+          in: "query"
+          description: "just get app's ingress"
+          required: false
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "support filter key:namespace|secret_name|service_name|host|create_at"
+          required: true
+          schema:
+            $ref: "#/definitions/FilterQuery"
+      responses:
+          200:
+            description: "successful operation"
+            schema:
+              $ref: "#/definitions/Ingresses"
+          400:
+            description: "Bad Request"
+          403:
+            description: "Forbidden"
+          500:
+            description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/ingresses/{id}:
+    delete:
+      tags:
+        - "ingresses"
+      summary: "删除ingress"
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "cluster"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "namespace"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "id"
+          in: "path"
+          description: "the id of ingress in database"
+          required: true
+          type: "integer"
+      responses:
+          200:
+            description: "successful operation"
+            schema:
+              $ref: "#/definitions/Success"
+          404:
+            description: "Not found"
+          403:
+            description: "Forbidden"
+          500:
+            description: "Internal Server Error"
+    put:
+      tags:
+        - "ingresses"
+      summary: "更新ingress"
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "cluster"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "namespace"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "id"
+          in: "path"
+          description: "the id of ingress in database"
+          required: true
+          type: "integer"
+        - name: "body"
+          in: "body"
+          description: "ingress information"
+          required: true
+          schema:
+            $ref: "#/definitions/IngressBody"
+      responses:
+          200:
+            description: "successful operation"
+            schema:
+              $ref: "#/definitions/Success"
+          400:
+            description: "Bad Request"
+          403:
+            description: "Forbidden"
+          500:
+            description: "Internal Server Error"
+    get:
+      tags:
+        - "ingresses"
+      summary: "获取ingress详细信息"
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "cluster"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "namespace"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "id"
+          in: "path"
+          description: "the id of ingress in database"
+          required: true
+          type: "integer"
+      responses:
+          200:
+            description: "successful operation"
+            schema:
+              $ref: "#/definitions/IngressBackendInfo"
+          400:
+            description: "Bad Request"
+          403:
+            description: "Forbidden"
+          500:
+            description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/services:
+    get:
+      tags:
+        - "services"
+      summary: "获取服务列表"
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "cluster"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "namespace"
+          in: "path"
+          description: "you can set 'all' to get all services in all namespaces"
+          required: true
+          type: "string"
+      responses:
+          200:
+            description: "successful operation"
+            schema:
+              $ref: "#/definitions/ServiceList"
+          403:
+            description: "Forbidden"
+          500:
+            description: "Internal Server Error"
+  /clusters/{cluster}/namespaces/{namespace}/services/{service}:
+    get:
+      tags:
+        - "services"
+      summary: "获取服务详情"
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "cluster"
+          in: "path"
+          description: ""
+          required: true
+          type: "string"
+        - name: "namespace"
+          in: "path"
+          description: "you can set 'all' to get all services in all namespaces"
+          required: true
+          type: "string"
+        - name: "service"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+          200:
+            description: "successful operation"
+            schema:
+              $ref: "#/definitions/ServiceList"
+          403:
+            description: "Forbidden"
+          500:
+            description: "Internal Server Error"
+  /harbors:
+    get:
+      tags:
+      - "harbors"
+      summary: "获取镜像仓库列表"
+      description: ""
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/HarborsRsp"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+    post:
+      tags:
+      - "harbors"
+      summary: "创建一个新的镜像仓库"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/HarborsReq"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Success"
+        400:
+          description: "Bad Request"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /harbors/{harbor}:
+    get:
+      tags:
+      - "harbors"
+      summary: "获取镜像仓库详细信息"
+      description: ""
+      parameters:
+      - name: "harbor"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/HarborRsp"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+    put:
+      tags:
+      - "harbors"
+      summary: "更新镜像仓库"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/HarborsUpdate"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Success"
+        400:
+          description: "Bad Request"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+    delete:
+      tags:
+      - "harbors"
+      summary: "删除镜像仓库"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "harbor"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Success"
+        400:
+          description: "Bad Request"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /harbors/{harbor}/repositories:
+    get:
+      tags:
+      - "harbors"
+      summary: "获取镜像列表"
+      description: ""
+      parameters:
+      - name: "harbor"
+        in: "path"
+        description: "如果是all则查询所有仓库"
+        required: true
+        type: "string"
+      - name: "project"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "public"
+        in: "query"
+        description: ""
+        required: false
+        type: "boolean"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/HarborsRepositoriesRsp"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /harbors/{harbor}/repositories/{repository}:
+    delete:
+      tags:
+      - "harbors"
+      summary: "删除镜像"
+      description: ""
+      parameters:
+      - name: "harbor"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "repository"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Success"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /harbors/{harbor}/repositories/{repository}/tags:
+    get:
+      tags:
+      - "harbors"
+      summary: "获取镜像tag列表"
+      description: ""
+      parameters:
+      - name: "harbor"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "repository"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/HarborsRepositoriesTagsRsp"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /harbors/{harbor}/repositories/{repository}/tags/{tag}:
+    delete:
+      tags:
+      - "harbors"
+      summary: "删除镜像tag"
+      description: ""
+      parameters:
+      - name: "harbor"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "repository"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "tag"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Success"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /harbors/{harbor}/repositories/{repository}/tags/{tag}/labels:
+    get:
+      tags:
+      - "harbors"
+      summary: "获取镜像tag标签"
+      description: ""
+      parameters:
+      - name: "harbor"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "repository"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "tag"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/HarborsRepositoriesTagLabelsRsp"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+    post:
+      tags:
+      - "harbors"
+      summary: "设置镜像tag标签"
+      description: ""
+      parameters:
+      - name: "harbor"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "repository"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "tag"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/HarborsTagLabels"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Success"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /harbors/{harbor}/projects/{project}/public/{public}:
+    post:
+      tags:
+      - "harbors"
+      summary: "修改镜像仓库下某个项目的public值"
+      description: ""
+      parameters:
+      - name: "harbor"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "project"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "public"
+        in: "path"
+        description: "0为私有 1为公有"
+        required: true
+        type: "integer"
+        format: "int64"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Success"
+        403:
+          description: "Forbidden"
+        500:
+          description: "Internal Server Error"
+  /events:
+    get:
+      tags:
+      - "events"
+      summary: "获取事件列表"
+      description: "根据不同的 Query String获取不同过滤条件的事件信息"
+      parameters:
+      - name: "cluster_name"
+        in: "query string"
+        description: "集群名称"
+        required: false
+        type: "string"
+      - name: "namespace"
+        in: "query string"
+        description: "部门名称(命名空间)"
+        required: false
+        type: "string"
+      - name: "source_host"
+        in: "query string"
+        description: "产生事件的主机"
+        required: false
+        type: "string"
+      - name: "object_kind"
+        in: "query string"
+        description: "资源目标类别，可选值为： Pod / Node"
+        required: false
+        type: "string"
+      - name: "object_name"
+        in: "query string"
+        description: "资源目标名称，object_kind为Pod时，object_name为pod的名称或者app的名称进行模糊匹配；object_kind为Node时，object_name为Node的名称全称"
+        required: false
+        type: "string"
+      - name: "event_level"
+        in: "query string"
+        description: "事件级别，可选值为： Normal / Warning"
+        required: false
+        type: "string"
+      - name: "limit_count"
+        in: "query string"
+        description: "返回结果条目数量"
+        required: false
+        type: "integer"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/eventResponseBody"
+        500:
+          description: "Internal Server Error"
+  /version:
+    get:
+      tags:
+      - "version"
+      summary: "获取版本信息"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/VcloudVerson"
+  
+definitions:
+  Success:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+  Charts:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            name:
+              type: "string"
+            description:
+              type: "string"
+            keywords:
+              type: "array"
+              items:
+                type: "string"
+            icon:
+              type: "string"
+  ChartSpec:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            metadata:
+              type: "object"
+              properties:
+                name:
+                  type: "string"
+                version:
+                  type: "string"
+                description:
+                  type: "string"
+                apiVersion:
+                  type: "string"
+                appVersion:
+                  type: "string"
+            templates:
+              type: "array"
+              items:
+                type: "object"
+                properties:
+                  name:
+                   type: "string"
+                  data:
+                    type: "string"
+            values:
+              type: "object"
+              properties:
+                raw:
+                  type: "string"
+            files:
+              type: "array"
+              items:
+                type: "object"
+                properties:
+                  type_url:
+                   type: "string"
+                  value:
+                    type: "string"
+  ChartsDownload:
+    type: "object"
+    properties:
+      filename:
+        type: "string"
+  ChartsExport:
+    type: "object"
+    properties:
+      cluster:
+        type: "string"
+      name:
+        type: "string"
+      version:
+        type: "string"
+      apps:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            name:
+              type: "string"
+            namespace:
+              type: "string"
+  ReleaseList:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            cluster:
+              type: "string"
+            namespace:
+              type: "string"
+            releaseName:
+              type: "string"
+            chartName:
+              type: "string"
+            version:
+              type: "string"
+            values:
+              type: "string"
+            status:
+              type: "string"
+  ReleaseSpec:
+    type: "object"
+    properties:
+      releaseName:
+        type: "string"
+      chartName:
+        type: "string"
+      version:
+        type: "string"
+      values:
+        type: "string"
+  ReleaseUpdateSpec:
+    type: "object"
+    properties:
+      chartName:
+        type: "string"
+      version:
+        type: "string"
+      values:
+        type: "string"
+  ReleaseDetail:
+    type: "object"
+    properties:
+      cluster:
+        type: "string"
+      namespace:
+        type: "string"
+      name:
+        type: "string"
+      config:
+        type: "string"
+      services:
+        type: "array"
+        items:
+          type: "string"
+  Events:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            event_level:
+              type: "string"
+              enum:
+                - "Normal"
+                - "Warning"
+            event_object:
+              type: "string"
+            event_type:
+              type: "string"
+            event_message:
+              type: "string"
+            event_time:
+              type: "string"
+  VcloudVerson:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "object"
+        properties:
+          class:
+            type: "string"
+          version:
+            type: "string"
+  StorageClassSpec:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      provisioner:
+        type: "string"
+      reclaimPolicy:
+        type: "string"
+      parameters:
+        $ref: "#/definitions/StorageClassCephComCephfsSpec"
+      creator:
+        type: "string"
+      createAt:
+        type: "string"
+  StorageClassCephComCephfsSpec:
+    type: "object"
+    properties:
+      monitors:
+        type: "string"
+      adminId:
+        type: "string"
+      adminSecretName:
+        type: "string"
+      adminSecretNamespace:
+        type: "string"
+      claimRoot:
+        type: "string"
+  StorageClassCephComRbdSpec:
+    type: "object"
+    properties:
+      monitors:
+        type: "string"
+      adminId:
+        type: "string"
+      adminSecretName:
+        type: "string"
+      adminSecretNamespace:
+        type: "string"
+      userId:
+        type: "string"
+      userSecretName:
+        type: "string"
+      userSecretNamespace:
+        type: "string"
+      pool:
+        type: "string"
+      fsType:
+        type: "string"
+      imageFormat:
+        type: "string"
+      imageFeatures:
+        type: "string"
+  PersistentVolumeClaimSpec:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      namespace:
+        type: "string"
+      storageClassName:
+        type: "string"
+      size:
+        type: "string"
+      accessMode:
+        type: "string"
+      creator:
+        type: "string"
+      createAt:
+        type: "string"
+      status:
+        type: "string"
+  SVSpec:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      capacity:
+        type: "string"
+      accessModes:
+        type: "string"
+      storageType:
+        type: "object"
+        properties:
+          nfs:
+            type: "object"
+            properties:
+              server:
+                type: "string"
+              path:
+                type: "string"
+              readOnly:
+                type: "boolean"
+                default: false
+  SVList:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          $ref: "#/definitions/SVInspect"
+  SVInspect:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      cluster:
+        type: "string"
+      namespace:
+        type: "string"
+      name:
+        type: "string"
+      capacity:
+        type: "string"
+      accessModes:
+        type: "string"
+      owner:
+        type: "string"
+      storageType:
+        type: "object"
+      creator:
+        type: "string"
+      deleted:
+        type: "integer"
+      create_at:
+        type: "string"
+      update_at:
+        type: "string"
+      delete_at:
+        type: "string"
+  ApplicationPost:
+    type: "object"
+    properties:
+      bu_code:
+        type: "string"
+      product:
+        type: "string"
+      name:
+        type: "string"
+      description:
+        type: "string"
+      template_id:
+        type: "integer"
+      code_url:
+        type: "string"
+      code_branches:
+        type: "string"
+        description: "code branch separated by blank space"
+  ApplicationBody:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      bu_code:
+        type: "string"
+      product:
+        type: "string"
+      project_id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      command:
+        type: "string"
+      envs:
+        type: "string"
+      exposed_ports:
+        type: "string"
+      memory_limitation:
+        type: "integer"
+        format: "int64"
+      network_mode:
+        type: "string"
+      public_network:
+        type: "boolean"
+        default: false
+      rds:
+        type: "boolean"
+        default: true
+      schedule_test_cluster:
+        type: "string"
+      schedule_pre_cluster:
+        type: "string"
+      schedule_prd_cluster:
+        type: "string"
+      schedule_prd_node:
+        type: "string"
+      schedule_pre_node:
+        type: "string"
+      scheduler_test_node:
+        type: "string"
+      schedule_type:
+        type: "string"
+      volumes:
+        type: "string"
+      quantity:
+        type: "integer"
+        format: "int64"
+      pre_quantity:
+        type: "integer"
+        format: "int64"
+      test_quantity:
+        type: "integer"
+        format: "int64"
+      code_url:
+        type: "string"
+      code_branches:
+        type: "string"
+      template_id:
+        type: "integer"
+        format: "int64"
+      description:
+        type: "string"
+  Application:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        $ref: "#/definitions/ApplicationBody"
+  ApplicationList:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          $ref: "#/definitions/ApplicationBody"
+  AppLabel:
+    type: "object"
+    description: "map[string]string"
+  Cluster:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      display_name:
+        type: "string"
+      registry:
+        type: "string"
+      docker_version:
+        type: "string"
+      network_plugin:
+        type: "string"
+      domain_suffix:
+        type: "string"
+      status:
+        type: "string"
+      certificate:
+        type: "string"
+      creator:
+        type: "string"
+      create_at:
+        type: "string"
+  ClusterRsp:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        $ref: "#/definitions/Cluster"
+  ClusterListRsp:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          $ref: "#/definitions/Cluster"
+  Namespace:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      desc:
+        type: "string"
+      cpu_quota:
+        type: "integer"
+      memory_quota:
+        type: "integer"
+      creator:
+        type: "string"
+      create_at:
+        type: "string"
+  NamespaceRsp:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        $ref: "#/definitions/Namespace"
+  NamespaceListRsp:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          $ref: "#/definitions/Namespace"
+  BizClustersRsp:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "string"
+  NodeCreate:
+    type: "object"
+    properties:
+      ip:
+        type: "string"
+      password:
+        type: "string"
+      labels:
+        type: "object"
+  NodeUpdate:
+    type: "object"
+    properties:
+      labels:
+        type: "object"
+  NodeFreeze:
+    type: "object"
+    properties:
+      delete_pods:
+        type: "boolean"
+  ClusterNode:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      cluster:
+        type: "string"
+      bizcluster:
+        type: "string"
+      ip:
+        type: "string"
+      pod_cidr:
+        type: "string"
+      labels:
+        type: "object"
+      cpu:
+        type: "string"
+      cpu_requests:
+        type: "string"
+      cpu_limits:
+        type: "string"
+      memory:
+        type: "string"
+      memory_requests:
+        type: "string"
+      memory_limits:
+        type: "string"
+      creator:
+        type: "string"
+      create_at:
+        type: "string"
+      status:
+        type: "string"
+  ClusterNodeDetail:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      cluster:
+        type: "string"
+      bizcluster:
+        type: "string"
+      ip:
+        type: "string"
+      pod_cidr:
+        type: "string"
+      labels:
+        type: "object"
+      cpu:
+        type: "string"
+      cpu_requests:
+        type: "string"
+      cpu_limits:
+        type: "string"
+      memory:
+        type: "string"
+      memory_requests:
+        type: "string"
+      memory_limits:
+        type: "string"
+      creator:
+        type: "string"
+      create_at:
+        type: "string"
+      status:
+        type: "string"
+      systeminfo:
+        type: "object"
+        properties:
+          machineID:
+            type: "string"
+          systemUUID:
+            type: "string"
+          bootID:
+            type: "string"
+          kernelVersion:
+            type: "string"
+          osImage:
+            type: "string"
+          containerRuntimeVersion:
+            type: "string"
+          kubeletVersion:
+            type: "string"
+          kubeProxyVersion:
+            type: "string"
+          operatingSystem:
+            type: "string"
+          architecture:
+            type: "string"
+      node_images:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            names:
+              type: "array"
+            size_mbytes:
+              type: "integer"
+  ClusterNodesRsp:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          $ref: "#/definitions/ClusterNode"
+  ClusterNodeDetailRsp:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        $ref: "#/definitions/ClusterNodeDetail"
+  NodePods:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            name:
+              type: "string"
+            namespace:
+              type: "string"
+            nodeIP:
+              type: "string"
+            podIP:
+              type: "string"
+            image:
+              type: "string"
+            status:
+              type: "string"
+            startTime:
+              type: "string"
+  NodeSystemInfo:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "object"
+        properties:
+          machineID:
+            type: "string"
+          systemUUID:
+            type: "string"
+          bootID:
+            type: "string"
+          kernelVersion:
+            type: "string"
+          osImage:
+            type: "string"
+          containerRuntimeVersion:
+            type: "string"
+          kubeletVersion:
+            type: "string"
+          kubeProxyVersion:
+            type: "string"
+          operatingSystem:
+            type: "string"
+          architecture:
+            type: "string"
+  NodeLabelReq:
+    type: "object"
+    properties:
+      key:
+        type: "string"
+      value:
+        type: "string"
+  NodeLabels:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            key:
+              type: "string"
+  PodItem:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      namespace:
+        type: "string"
+      node_ip:
+        type: "string"
+      pod_ip:
+        type: "string"
+      image:
+        type: "string"
+      status:
+        type: "string"
+      start_time:
+        type: "string"
+      containers:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            name:
+              type: "string"
+            image:
+              type: "string"
+  AppItem:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      version:
+        type: "string"
+      base_name:
+        type: "string"
+      domain_name:
+        type: "string"
+      kind:
+        type: "string"
+      project_id:
+        type: "integer"
+      template_name:
+        type: "string"
+      cluster:
+        type: "string"
+      namespace:
+        type: "string"
+      replicas:
+        type: "integer"
+      image:
+        type: "string"
+      template:
+        type: "string"
+        description: "it is empty when you call application list api"
+      template_kind:
+        type: "string"
+      label_selector:
+        type: "string"
+      creator:
+        type: "string"
+      inject_service_mesh:
+        type: "string"
+      status_replicas:
+        type: "integer"
+      ready_replicas:
+        type: "integer"
+      updated_replicas:
+        type: "integer"
+      available_replicas:
+        type: "integer"
+      available_status:
+        type: "string"
+      message:
+        type: "string"
+      deploy_status:
+        type: "string"
+      heritage:
+        type: "string"
+      pods:
+        type: "string"
+      status:
+        type: "string"
+      version_list:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            stage:
+              type: "string"
+            version:
+              type: "string"
+            weight:
+              type: "integer"
+      create_at:
+        type: "string"
+      update_at:
+        type: "string"
+  AppsRsp:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          $ref: "#/definitions/AppItem"
+  AppsQueryList:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "object"
+        properties:
+          base:
+            $ref: "#/definitions/ListBase"
+          list:
+            type: "array"
+            items:
+              $ref: "#/definitions/AppItem"
+  AppCreate:
+    type: "object"
+    properties:
+      cluster:
+        type: "string"
+      app_params:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            name:
+              type: "string"
+              description: "application name"
+            containers:
+              type: "array"
+              items:
+                type: "object"
+                properties:
+                  name:
+                    type: "string"
+                    description: "container name"
+                  image:
+                    type: "string"
+            replicas:
+              type: "integer"
+  AppInspectRsp:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "object"
+        properties:
+          AppItem:
+            $ref: "#/definitions/AppItem"
+          ingress:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                name:
+                  type: "string"
+                tls:
+                  type: "array"
+                  items:
+                    type: "object"
+                    properties:
+                      hosts:
+                        type: "array"
+                        items:
+                          type: "string"
+                      secretName:
+                        type: "string"
+                rules:
+                  type: "array"
+                  items:
+                    type: "object"
+                    properties:
+                      paths:
+                        type: "array"
+                        items:
+                          type: "object"
+                          properties:
+                            path:
+                              type: "string"
+                            backend:
+                              type: "object"
+                              properties:
+                                serviceName:
+                                  type: "string"
+                                servicePort:
+                                  type: "integer"
+                      host:
+                        type: "string"
+          service:
+            type: "object"
+            properties:
+              name:
+                type: "string"
+              type:
+                type: "string"
+              cluster_ip:
+                type: "string"
+              address_list:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    port:
+                      type: "integer"
+                    target_port:
+                      type: "integer"
+                    node_port:
+                      type: "integer"
+                    protocol:
+                      type: "string"
+                    external_addr:
+                      type: "string"
+                    node_port_addr:
+                      type: "string"
+                    cluster_addr:
+                      type: "string"
+              podsvc_addr_list:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    target_port:
+                      type: "integer"
+                    protocol:
+                      type: "string"
+                    cluster_addr:
+                      type: "string"
+          pods:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                weight:
+                  type: "integer"
+                name:
+                  type: "string"
+                namespace:
+                  type: "string"
+                version:
+                  type: "string"
+                node_ip:
+                  type: "string"
+                pod_ip:
+                  type: "string"
+                status:
+                  type: "string"
+                message:
+                  type: "string"
+                restart_count:
+                  type: "integer"
+                start_time:
+                  type: "string"
+                containers:
+                  type: "array"
+                  items:
+                    type: "object"
+                    properties:
+                      name:
+                        type: "string"
+                      image:
+                        type: "string"
+                      cpu_requests:
+                        type: "integer"
+                      cpu_limits:
+                        type: "integer"
+                      memory_requests:
+                        type: "integer"
+                      memory_limits:
+                        type: "integer"
+  AppLog:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "string"
+  HarborsRsp:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            harbor_name:
+              type: "string"
+            harbor_addr:
+              type: "string"
+            harbor_desc:
+              type: "string"
+            harbor_user:
+              type: "string"
+            harbor_password:
+              type: "string"
+            harbor_email:
+              type: "string"
+            harbor_auth:
+              type: "string"
+            create_at:
+              type: "string"
+  HarborsReq:
+    type: "object"
+    properties:
+      harbor_name:
+        type: "string"
+      harbor_addr:
+        type: "string"
+      harbor_desc:
+        type: "string"
+      harbor_user:
+        type: "string"
+      harbor_password:
+        type: "string"
+      harbor_email:
+        type: "string"
+  HarborsUpdate:
+    type: "object"
+    properties:
+      harbor_addr:
+        type: "string"
+      harbor_desc:
+        type: "string"
+      harbor_user:
+        type: "string"
+      harbor_password:
+        type: "string"
+      harbor_email:
+        type: "string"
+  HarborRsp:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "object"
+        properties:
+          harbor_name:
+            type: "string"
+          harbor_addr:
+            type: "string"
+          harbor_desc:
+            type: "string"
+          harbor_user:
+            type: "string"
+          harbor_password:
+            type: "string"
+          harbor_email:
+            type: "string"
+          harbor_auth:
+            type: "string"
+          create_at:
+            type: "string"
+  HarborsRepositoriesRsp:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            project_id:
+              type: "integer"
+              format: "int64"
+            project_name:
+              type: "string"
+            project_public:
+              type: "integer"
+              format: "int64"
+            pull_count:
+              type: "integer"
+              format: "int64"
+            repository_name:
+              type: "string"
+            tags_count:
+              type: "integer"
+              format: "int64"
+  HarborsRepositoriesTagsRsp:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            harbor_name:
+              type: "string"
+            repository_name:
+              type: "string"
+            tag:
+              type: "string"
+            code_branch:
+              type: "string"
+            create_at:
+              type: "string"
+  MetricRequestBody:
+    type: "object"
+    properties:
+      MetricItem:
+        type: "string"
+        enum:
+        - "k8s_pod_cpu_usage_rate"
+        - "k8s_pod_memory_usage"
+      Start:
+        type: "string"
+      End:
+        type: "string"
+      Duration:
+        type: "integer"
+        format: "10的整数倍"
+  MetricResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "object"
+        properties:
+          dataPoints:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                x:
+                  type: "integer"
+                  format: "int64"
+                y:
+                  type: "integer"
+                  format: "int64"
+          metricName:
+            type: "string"
+            format: "Valid Prometheus Query Key"
+  RemoteShellResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "object"
+        properties:
+          id:
+            type: "string"
+  RemoteExecResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "string"
+  statusResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "object"
+        properties:
+          runningNum:
+            type: "integer"
+            format: "int"
+          operatingNum:
+            type: "integer"
+            format: "int"
+          stoppedNum:
+            type: "integer"
+            format: "int"
+  rangeStatusResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            dataPoints:
+              type: "array"
+              items:
+                $ref: "#/definitions/PrometheusPoints"
+            metricName:
+              type: "string"
+            objectName:
+              type: "string"
+  eventResponseBody:
+    type: "array"
+    items:
+      type: "object"
+      properties:
+        cluster_name:
+          type: "string"
+        namespace:
+          type: "string"
+        event_level:
+          type: "string"
+        object_kind:
+          type: "string"
+          enum:
+            - "Pod"
+            - "Node"
+        object_name:
+          type: "string"
+        object_phase:
+          type: "string"
+          enum:
+            - "Normal"
+            - "Warning"
+        object_message:
+          type: "string"
+        source_host:
+          type: "string"
+        last_time:
+          type: "string"
+  appRangeStatusResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            dataPoints:
+              type: "array"
+              items:
+                $ref: "#/definitions/PrometheusPoints"
+            metricName:
+              type: "string"
+            objectName:
+              type: "string"
+  svcRangeStatusResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            dataPoints:
+              type: "array"
+              items:
+                $ref: "#/definitions/PrometheusPoints"
+            metricName:
+              type: "string"
+            objectName:
+              type: "string"
+  pointComponentStatusResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "object"
+        properties:
+          dataPoints:
+            type: "object"
+            properties:
+              kubernetes:
+                type: "array"
+              prometheus:
+                type: "array"
+  pointTopStatusResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            namespace:
+              type: "string"
+            pod_name:
+              type: "string"
+            timestamp:
+              type: "string"
+            value:
+              type: "string"
+  pointAppStatisticsResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            app_name:
+              type: "string"
+            app_duration:
+              type: "integer"
+            app_average:
+              type: "object"
+              properties:
+                cpu:
+                  type: "float"
+                memory:
+                  type: "float"
+            app_average_quota:
+              type: "object"
+              properties:
+                cpu:
+                  type: "float"
+                memory:
+                  type: "float"
+            app_total_usage:
+              type: "object"
+              properties:
+                cpu:
+                  type: "float"
+                memory:
+                  type: "float"
+            app_total_quota:
+              type: "object"
+              properties:
+                cpu:
+                  type: "float"
+                memory:
+                  type: "float"
+            app_usage_ratio:
+              type: "object"
+              properties:
+                cpu:
+                  type: "float"
+                memory:
+                  type: "float"
+            pod_average:
+              type: "object"
+              properties:
+                cpu:
+                  type: "float"
+                memory:
+                  type: "float"
+            pod_average_quota:
+              type: "object"
+              properties:
+                cpu:
+                  type: "float"
+                memory:
+                  type: "float"
+            pod_max:
+              type: "object"
+              properties:
+                cpu:
+                  type: "float"
+                memory:
+                  type: "float"
+            pod_recommend:
+              type: "object"
+              properties:
+                cpu:
+                  type: "float"
+                memory:
+                  type: "float"
+            pod_total_duration:
+              type: "integer"
+            pod_avg_number:
+              type: "float"
+            request_start_at:
+              type: "integer"
+            request_end_at:
+              type: "integer"
+            app_start_at:
+              type: "integer"
+            app_end_at:
+              type: "integer"
+            pods:
+              type: "array"
+              items:
+                type: "object"
+                properties:
+                  pod_name:
+                    type: "string"
+                  average:
+                    type: "object"
+                    properties:
+                      cpu:
+                        type: "float"
+                      memory:
+                        type: "float"
+                  max:
+                    type: "object"
+                    properties:
+                      cpu:
+                        type: "float"
+                      memory:
+                        type: "float"
+                  recommend:
+                    type: "object"
+                    properties:
+                      cpu:
+                        type: "float"
+                      memory:
+                        type: "float"
+                  quota:
+                    type: "object"
+                    properties:
+                      cpu:
+                        type: "float"
+                      memory:
+                        type: "float"
+                  duration:
+                    type: "integer"
+                  start_at:
+                    type: "integer"
+                  end_at:
+                    type: "integer"
+                  metrics:
+                    type: "object"
+                    properties:
+                      cpu:
+                        type: "array"
+                        items:
+                          type: "object"
+                          properties:
+                            x:
+                              type: "integer"
+                            y:
+                              type: "float"
+                      memory:
+                        type: "array"
+                        items:
+                          type: "object"
+                          properties:
+                            x:
+                              type: "integer"
+                            y:
+                              type: "float"
+
+  pointDiskStatusResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            device:
+              type: "string"
+            instance:
+              type: "string"
+            timestamp:
+              type: "string"
+            value:
+              type: "string"
+  pointNodePodAndCtnResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            instance:
+              type: "string"
+            timestamp:
+              type: "string"
+            value:
+              type: "string"
+
+  pointAppResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            app_name:
+              type: "string"
+            namespace:
+              type: "string"
+            timestamp:
+              type: "string"
+            value:
+              type: "string"
+
+  pointNodeResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            instance:
+              type: "string"
+            timestamp:
+              type: "string"
+            value:
+              type: "string"
+
+  appBaseNameListResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+
+  promAppStatementsResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            kind:
+              type: "string"
+            apps:
+              type: "array"
+
+  promBaseNameStatementsResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            kind:
+              type: "string"
+            base_names:
+              type: "array"
+
+  PrometheusPoints:
+    type: "object"
+    properties:
+      x:
+        type: "int64"
+      y:
+        type: "float"
+  promRangeRequsetBody:
+    type: "object"
+    properties:
+      MetricItem:
+        type: "string"
+        enum:
+        - "k8s_all_nodes_cpu_usage_rate"
+        - "k8s_all_nodes_free_memory"
+        - "k8s_all_nodes_available_memory"
+        - "k8s_all_nodes_total_memory"
+      Start:
+        type: "string"
+      End:
+        type: "string"
+      Duration:
+        type: "integer"
+
+  promNodeRangeRequsetBody:
+    type: "object"
+    properties:
+      MetricItem:
+        type: "string"
+        enum:
+        - "k8s_node_cpu_usage_rate"
+        - "k8s_node_free_memory"
+        - "k8s_node_free_memory_rate"
+        - "k8s_node_available_memory"
+        - "k8s_node_available_memory_rate"
+        - "k8s_node_total_memory"
+        - "k8s_node_disk_write_rate"
+        - "k8s_node_disk_read_rate"
+        - "k8s_node_disk_write_io_rate"
+        - "k8s_node_disk_read_io_rate"
+      Start:
+        type: "string"
+      End:
+        type: "string"
+      Duration:
+        type: "integer"
+
+  promAppRangeRequsetBody:
+    type: "object"
+    properties:
+      MetricItem:
+        type: "string"
+        enum:
+        - "k8s_pod_network_ingress_rate"
+        - "k8s_pod_network_egress_rate"
+        - "k8s_pod_cpu_usage_cores"
+        - "k8s_pod_cpu_usage_rate"
+        - "k8s_pod_memory_usage"
+        - "k8s_pod_memory_usage_rate"
+        - "k8s_pod_fs_read_rate"
+        - "k8s_pod_fs_write_rate"
+      Start:
+        type: "string"
+      End:
+        type: "string"
+      Duration:
+        type: "integer"
+
+  promSvcRangeRequsetBody:
+    type: "object"
+    properties:
+      MetricItem:
+        type: "string"
+        enum:
+        - "k8s_app_cpu_usage_rate"
+        - "k8s_app_cpu_avg_usage_cores"
+        - "k8s_app_memory_usage_rate"
+        - "k8s_app_memory_avg_usage"
+      Start:
+        type: "string"
+      End:
+        type: "string"
+      Duration:
+        type: "integer"
+
+  promPointRequsetBody:
+    type: "object"
+    properties:
+      metric_item:
+        type: "string"
+
+  promTopNPointRequsetBody:
+    type: "object"
+    properties:
+      metric_item:
+        type: "string"
+        enum:
+        - "sort_desc(topk(5, k8s_pod_memory_usage))"
+        - "sort_desc(topk(5, k8s_pod_cpu_usage_rate))"
+
+  promNodesDiskPointRequsetBody:
+    type: "object"
+    properties:
+      metric_item:
+
+  promNodePodAndCtnPointRequsetBody:
+    type: "object"
+    properties:
+      metric_item:
+        type: "string"
+        enum:
+        - "k8s_per_node_pod_count"
+        - "k8s_per_node_container_count"
+
+  promAppPointRequsetBody:
+    type: "object"
+    properties:
+      metric_item:
+        type: "string"
+        enum:
+        - "k8s_app_memory_usage_limit"
+        - "k8s_app_cpu_quota"
+        - "k8s_app_cpu_usage_rate"
+        - "k8s_app_memory_usage_rate"
+
+  promNodePointRequsetBody:
+    type: "object"
+    properties:
+      metric_item:
+        type: "string"
+        enum:
+        - "k8s_node_cpu_usage_rate"
+        - "k8s_node_available_memory_rate"
+
+  promAppStatisticsRequsetBody:
+    type: "object"
+    properties:
+      start:
+        type: "string"
+      end:
+        type: "string"
+      interval:
+        type: "integer"
+      namespace:
+        type: "string"
+        description: "各自真实的资源空间名称或者是所有资源空间（all_namespaces）"
+      apps_name:
+        type: "array"
+
+  promAppStatementsRequsetBody:
+    type: "object"
+    properties:
+      apps:
+        type: "array"
+      start:
+        type: "string"
+      end:
+        type: "string"
+      interval:
+        type: "integer"
+      cluster:
+        type: "integer"
+      namespace:
+        type: "string"
+      kind:
+        type: "string"
+
+  promBaseNameStatementsRequsetBody:
+    type: "object"
+    properties:
+      base_names:
+        type: "array"
+      start:
+        type: "string"
+      end:
+        type: "string"
+      interval:
+        type: "integer"
+      cluster:
+        type: "integer"
+      namespace:
+        type: "string"
+      kind:
+        type: "string"
+
+  Secret:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      cluster:
+        type: "string"
+      namespace:
+        type: "string"
+      description:
+        type: "string"
+      tls_crt:
+        type: "string"
+      tls_key:
+        type: "string"
+      creator:
+        type: "string"
+      create_at:
+        type: "string"
+      update_at:
+        type: "string"
+  SecretInfo:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        required: true
+      description:
+        type: "string"
+      tls_crt:
+        type: "string"
+      tls_key:
+        type: "string"
+  CreateSecret:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        $ref: "#/definitions/Secret"
+  Secrets:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "object"
+        properties:
+          base:
+            $ref: "#/definitions/ListBase"
+          list:
+            type: "array"
+            items:
+              $ref: "#/definitions/Secret"
+  ServiceObject:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      namespace:
+        type: "string"
+      ports:
+        type: "array"
+        items:
+          type: "integer"
+      type:
+        type: "string"
+      clusterIP:
+        type: "string"
+  Service:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        $ref: "#/definitions/ServiceObject"
+  ServiceList:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          $ref: "#/definitions/ServiceObject"
+  IngressBody:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      namespace:
+        type: "string"
+      host:
+        type: "string"
+      protocol:
+        type: "string"
+      secret_name:
+        type: "string"
+      paths:
+        type: "array"
+        items:
+          properties:
+            path:
+              type: "string"
+            service_name:
+              type: "string"
+            service_port:
+              type: "integer"
+      ingress_config:
+        $ref: "#/definitions/IngressConfig"
+  IngressRule:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      cluster:
+        type: "string"
+      namespace:
+        type: "string"
+      host:
+        type: "string"
+      protocol:
+        type: "string"
+      secret_name:
+        type: "string"
+      ingress_name:
+        type: "string"
+      path:
+        type: "string"
+      service_name:
+        type: "string"
+      service_port:
+        type: "integer"
+      creator:
+        type: "string"
+      create_at:
+        type: "string"
+      update_at:
+        type: "string"
+  Ingresses:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "object"
+        properties:
+          base:
+            $ref: "#/definitions/ListBase"
+          list:
+            type: "array"
+            items:
+              $ref: "#/definitions/IngressRule"
+  IngressBackendInfo:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "object"
+        properties:
+          backend:
+            type: "array"
+            items:
+              properties:
+                name:
+                  type: "string"
+                url:
+                  type: "string"
+                weight:
+                  type: "integer"
+          config:
+            $ref: "#/definitions/IngressConfig"
+  Container:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      image:
+        type: "string"
+      entrypoint:
+        type: "string"
+      command:
+        type: "array"
+      resources:
+        type: "object"
+        properties:
+          limits:
+            type: "object"
+            properties:
+              cpu:
+                type: "string"
+              memory:
+                type: "string"
+          requests:
+            type: "object"
+            properties:
+              cpu:
+                type: "string"
+              memory:
+                type: "string"
+      env:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            name:
+              type: "string"
+            value:
+              type: "string"
+            valueFrom:
+              type: "object"
+              properties:
+                fieldRef:
+                  type: "object"
+                  properties:
+                    apiVersion:
+                      type: "string"
+                    fieldPath:
+                      type: "string"
+      volume_mounts:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            name:
+              type: "string"
+            host_path:
+              type: "string"
+            pvc_name:
+              type: "string"
+            sub_path:
+              type: "string"
+            config_map:
+              type: "object"
+              properties:
+                name:
+                  type: "string"
+                items:
+                  type: "array"
+                  items:
+                    type: "string"
+            mount_path:
+              type: "string"
+            read_only:
+              type: "boolean"
+      image_pull_policy:
+        type: "string"
+      health_check:
+        type: "object"
+        properties:
+          liveness:
+            type: "object"
+            properties:
+              http_get:
+                type: "object"
+                properties:
+                  port:
+                    type: "integer"
+                  path:
+                    type: "string"
+              tcp_socket:
+                type: "object"
+                properties:
+                  port:
+                    type: "integer"
+              initial_delay:
+                type: "integer"
+              timeout:
+                type: "integer"
+              period:
+                type: "integer"
+              success_threshold:
+                type: "integer"
+              failure_threshold:
+                type: "integer"
+          readiness:
+            type: "object"
+            description: "it is the same with liveness!"
+      run_as_privileged:
+        type: "boolean"
+  TemplateItem:
+    type: "object"
+    properties:
+      description:
+        type: "string"
+      containers:
+        type: "array"
+        items:
+          $ref: "#/definitions/Container"
+      init_containers:
+        type: "array"
+        items:
+          $ref: "#/definitions/Container"
+      service:
+        type: "object"
+        properties:
+          affinity:
+            type: "boolean"
+          ports:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                name:
+                  type: "string"
+                port:
+                  type: "integer"
+                target_port:
+                  type: "integer"
+                protocol:
+                  type: "string"
+                is_default:
+                  type: "boolean"
+          open_external_ip:
+            type: "boolean"
+          external_ips:
+            type: "array"
+            items:
+              type: "string"
+          auto_allocation:
+            type: "boolean"
+          type:
+            type: "string"
+      deploy:
+        type: "object"
+        properties:
+          kind:
+            type: "string"
+          replicas:
+            type: "integer"
+          version:
+            type: "string"
+          inject_service_mesh:
+            type: "boolean"
+          base_name:
+            type: "string"
+          domain_name:
+            type: "string"
+          labels:
+            type: "object"
+            properties:
+              type: "string"
+          restart_policy:
+            type: "string"
+          dns_policy:
+            type: "string"
+          schdule_policy:
+            type: "object"
+            properties:
+              self_anti_affinity:
+                type: "boolean"
+              node_name:
+                type: "string"
+              node_selector:
+                type: "array"
+                items:
+                  type: "string"
+          image_pull_secret:
+            type: "string"
+          service_account_name:
+            type: "string"
+          annotations:
+            type: "array"
+            description: "map[string]string"
+            items:
+              type: "string"
+          deployment_strategy:
+            type: "object"
+            properties:
+              strategy_type:
+                type: "string"
+              gray_policy:
+                type: "object"
+                properties:
+                  init_weight:
+                    type: "integer"
+              rolling_update:
+                type: "object"
+                properties:
+                  max_unavailable:
+                    type: "integer"
+                  max_surge:
+                    type: "integer"
+          autoscaling:
+            type: "object"
+            properties:
+              min_replicas:
+                type: "integer"
+              max_replicas:
+                type: "integer"
+              cpu_target:
+                type: "integer"
+              memory_target:
+                type: "integer"
+          host_network:
+            type: "boolean"
+          grace_period_seconds:
+            type: "integer"
+  TemplateSpec:
+    type: "array"
+    items:
+      $ref: "#/definitions/TemplateItem"
+  Template:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      description:
+        type: "string"
+      namespace:
+        type: "string"
+      spec:
+        $ref: "#/definitions/Template"
+        description: "encode by json to a string data"
+      creator:
+        type: "string"
+      create_at:
+        type: "string"
+      update_at:
+        type: "string"
+  TemplateSuccuss:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        $ref: "#/definitions/Template"
+  TemplateList:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          $ref: "#/definitions/Template"
+  ExampleTemplate:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "string"
+        description: "a string encoded by base64"
+  JobSpec:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      image:
+        type: "string"
+      cron_schedule:
+        type: "string"
+      timeout:
+        type: "integer"
+      command:
+        type: "string"
+      cpu:
+        type: "integer"
+      memory:
+        type: "integer"
+      env_variable:
+        type: "string"
+      start_now:
+        type: "boolean"
+        default: false
+  Job:
+    type: "object"
+    properties:
+      kind:
+        type: "string"
+      cluster:
+        type: "string"
+      namespace:
+        type: "string"
+      name:
+        type: "string"
+      image:
+        type: "string"
+      cron_schedule:
+        type: "string"
+      timeout:
+        type: "integer"
+      command:
+        type: "string"
+      cpu:
+        type: "integer"
+      memory:
+        type: "integer"
+      env_variable:
+        type: "string"
+      creator:
+        type: "string"
+      create_at:
+        type: "string"
+      last_schedule:
+        type: "string"
+      status:
+        type: "string"
+      jobs_history:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            name:
+              type: "string"
+            Status:
+              type: "string"
+            Reason:
+              type: "string"
+            Message:
+              type: "string"
+            start_time:
+              type: "string"
+  JobInspect:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        $ref: "#/definitions/Job"
+  JobsList:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          $ref: "#/definitions/Job"
+  TrafficView:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "object"
+        properties:
+          nodes:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                label:
+                  type: "string"
+                id:
+                  type: "string"
+                color:
+                  type: "object"
+                  properties:
+                    border:
+                      type: "string"
+                    background:
+                      type: "string"
+                    highlight:
+                      type: "string"
+                size:
+                  type: "integer"
+                borderWidth:
+                  type: "integer"
+                font:
+                  type: "object"
+                  properties:
+                    size:
+                      type: "integer"
+                shape:
+                  type: "string"
+          edges:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "string"
+                from:
+                  type: "string"
+                to:
+                  type: "string"
+                arrows:
+                  type: "string"
+                label:
+                  type: "string"
+                color:
+                  type: "object"
+                  properties:
+                    color:
+                      type: "string"
+                    highlight:
+                      type: "string"
+                length:
+                  type: "integer"
+                width:
+                  type: "integer"
+
+  GetAllAlertsResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          properties:
+            id:
+              type: "integer"
+            name:
+              type: "string"
+            description:
+              type: "string"
+            duration:
+              type: "integer"
+            operator:
+              type: "string"
+            threshold:
+              type: "integer"
+            severityLevel:
+              type: "string"
+            zcloudNamespace:
+              type: "string"
+            zcloudCluster:
+              type: "string"
+            baseRule:
+              type: "object"
+            zcloudApp:
+              type: "object"
+            zcloudNode:
+              type: "object"
+            deleted:
+              type: "integer"
+            create_at:
+              type: "string"
+            update_at:
+              type: "string"
+            delete_at:
+              type: "string"
+
+  CreateAlertRequestBody:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      description:
+        type: "string"
+      duration:
+        type: "integer"
+      operator:
+        type: "string"
+        enum:
+        - "<"
+        - "<="
+        - "="
+        - ">"
+        - ">="
+      threshold:
+        type: "integer"
+      severity:
+        type: "string"
+        enum:
+        - "note"
+        - "warning"
+        - "critical"
+      type:
+        type: "string"
+        enum:
+        - "cpu"
+        - "memory"
+        - "status"
+      object:
+        type: "string"
+        enum:
+        - "node"
+        - "pod"
+        - "component"
+      node_id:
+        type: "integer"
+      config_id:
+        type: "integer"
+      admin_rule:
+        type: "boolean"
+
+  CreateComponentAlertRequestBody:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      description:
+        type: "string"
+      duration:
+        type: "integer"
+      severity:
+        type: "string"
+        enum:
+        - "note"
+        - "warning"
+        - "critical"
+      type:
+        type: "string"
+        enum:
+        - "cpu"
+        - "memory"
+        - "status"
+      object:
+        type: "string"
+        enum:
+        - "node"
+        - "pod"
+        - "component"
+      node_id:
+        type: "integer"
+      config_id:
+        type: "integer"
+      namespace:
+        type: "string"
+      admin_rule:
+        type: "boolean"
+
+  EmptyResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "string"
+
+  UpdateAlertRequestBody:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      description:
+        type: "string"
+      duration:
+        type: "integer"
+      operator:
+        type: "string"
+        enum:
+        - "<"
+        - "<="
+        - "="
+        - ">"
+        - ">="
+      threshold:
+        type: "integer"
+
+  RefresgAllAlertsRequestBody:
+    type: "object"
+    properties:
+      action:
+        type: "string"
+
+  GetSpecificAlertResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "object"
+        properties:
+          id:
+            type: "integer"
+          name:
+            type: "string"
+          description:
+            type: "string"
+          duration:
+            type: "integer"
+          operator:
+            type: "string"
+          threshold:
+            type: "integer"
+          severityLevel:
+            type: "string"
+          zcloudNamespace:
+            type: "string"
+          zcloudCluster:
+            type: "string"
+          baseRule:
+            type: "object"
+          zcloudApp:
+            type: "object"
+          zcloudNode:
+            type: "object"
+          deleted:
+            type: "integer"
+          create_at:
+            type: "string"
+          update_at:
+            type: "string"
+          delete_at:
+            type: "string"
+
+  GetAllConfigsResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          properties:
+            id:
+              type: "integer"
+            department:
+              type: "string"
+            interval:
+              type: "integer"
+            cluster:
+              type: "string"
+            departmentConfigEmail:
+              type: "array"
+            deleted:
+              type: "integer"
+            create_at:
+              type: "string"
+            update_at:
+              type: "string"
+            delete_at:
+              type: "string"
+
+  CreateConfigRequestBody:
+    type: "object"
+    properties:
+      email:
+        type: "array"
+      repeat_interval:
+        type: "integer"
+      admin_config:
+        type: "boolean"
+      object_name:
+        type: "string"
+      object_type:
+        type: "string"
+      namespace:
+        type: "string"
+
+  CreateAdminConfigRequestBody:
+    type: "object"
+    properties:
+      email:
+        type: "array"
+        items:
+      repeat_interval:
+        type: "integer"
+      admin_config:
+        type: "boolean"
+      object_name:
+        type: "string"
+      object_type:
+        type: "string"
+      namespace:
+        type: "string"
+
+  updateConfigRequestBody:
+    type: "object"
+    properties:
+      email:
+        type: "array"
+        items:
+          properties:
+            username:
+              type: "string"
+      repeat_interval:
+        type: "integer"
+
+  GetSpecificConfigsResponseBody:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "object"
+        properties:
+          Id:
+            type: "integer"
+          Department:
+            type: "string"
+          Interval:
+            type: "integer"
+          Cluster:
+            type: "string"
+          DepartmentConfigEmail:
+            type: "array"
+          deleted:
+            type: "integer"
+          create_at:
+            type: "string"
+          update_at:
+            type: "string"
+          delete_at:
+            type: "string"
+
+  IstioService:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      #namespace:
+      #  type: "string"
+      #domain:
+      #  type: "string"
+      #labels:
+      #  type: "object"
+      #  description: "a map structure"
+      service:
+        type: "string"
+        description: "if the rule is egress, service must be set, it is a regular expression"
+  RouteRuleSpec:
+    type: "object"
+    properties:
+      destination:
+        type: "object"
+        $ref: "#/definitions/IstioService"
+      httpFault:
+        type: "object"
+        properties:
+          abort:
+            type: "object"
+            properties:
+              percent:
+                type: "integer"
+              httpStatus:
+                type: "integer"
+          delay:
+            type: "object"
+            properties:
+              percent:
+                type: "integer"
+              fixedDelay:
+                type: "string"
+  DestPolicySpec:
+    type: "object"
+    properties:
+      destination:
+        type: "object"
+        $ref: "#/definitions/IstioService"
+      circuitBreaker:
+        type: "object"
+        properties:
+          maxConnections:
+            type: "integer"
+          httpMaxRequests:
+            type: "integer"
+      loadBalancing:
+        type: "object"
+        properties:
+          name:
+            type: "string"
+            description: "ROUND_ROBIN、LEAST_CONN、RANDOM, one of these is right!"
+  EgressSpec:
+    type: "object"
+    properties:
+      destination:
+        type: "object"
+        $ref: "#/definitions/IstioService"
+      ports:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            port:
+              type: "integer"
+            protocol:
+              type: "string"
+          #use_egress_proxy:
+          #  type: "boolean"
+  RuleRequest:
+    type: "object"
+    properties:
+      description:
+        type: "string"
+      spec:
+        $ref: "#/definitions/DestPolicySpec"
+  QueryRequest:
+    type: "object"
+    properties:
+      source:
+        type: "string"
+        description: "traffic edge source"
+      destination:
+        type: "string"
+        description: "traffic edge destination"
+      start:
+        type: "string"
+      end:
+        type: "string"
+      duration:
+        type: "integer"
+        description: "interval time, second"
+  QueryResult:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            metric:
+              type: "object"
+              properties:
+                source:
+                  type: "string"
+                destination:
+                  type: "string"
+            items:
+              type: "array"
+              items:
+                type: "object"
+                properties:
+                  name:
+                    type: "string"
+                  data_points:
+                    type: "array"
+                    items:
+                      type: "object"
+                      properties:
+                        x:
+                          type: "integer"
+                          description: "timestamp"
+                        y:
+                          type: "float"
+                          description: "value"
+  TrafficRule:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      description:
+        type: "string"
+      cluster:
+        type: "string"
+      namespace:
+        type: "string"
+      kind:
+        type: "string"
+      category:
+        type: "string"
+      spec:
+        $ref: "#/definitions/DestPolicySpec"
+        description: "encode by json to a string data"
+      creator:
+        type: "string"
+      create_at:
+        type: "string"
+      update_at:
+        type: "string"
+  TrafficRuleSuccuss:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+  TrafficRuleList:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          $ref: "#/definitions/TrafficRule"
+  ExampleRouteRule:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "string"
+        description: "a string encoded by base64"
+  ExecRequestBody:
+    type: "object"
+    properties:
+      Command:
+        type: "string"
+
+  AppTraceList:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            id:
+              type: "integer"
+            cluster:
+              type: "string"
+            namespace:
+              type: "string"
+            name:
+              type: "string"
+            replicas:
+              type: "integer"
+            limit_cpu:
+              type: "integer"
+              description: "unit 'm'"
+            limit_memory:
+              type: "integer"
+              description: "unit 'mb'"
+  JobLog:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "string"
+  BatchRollingUpdateParam:
+    type: "array"
+    items:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          description: "application name which you want to update"
+        image:
+          type: "string"
+  ContainerParam:
+    type: "array"
+    items:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          description: "container name which you want to update"
+        image:
+          type: "string"
+  FilterQuery:
+    type: "object"
+    properties:
+      page_size:
+        type: "integer"
+      page_index:
+        type: "integer"
+      filter_key:
+        type: "string"
+      filter_val:
+        type: "string"
+  VersionWeight:
+    type: "array"
+    items:
+      type: "object"
+      properties:
+        version:
+          type: "string"
+        weight:
+          type: "integer"
+  IngressConfig:
+    type: "object"
+    properties:
+      protocol:
+        type: "string"
+        description: "协议：只支持http或https"
+      secret_name:
+        type: "string"
+        description: "证书：https是有效"
+      affinity:
+        type: "object"
+        description: "会话保持"
+        properties:
+          affinity:
+            type: "boolean"
+            description: "会话保持开关"
+          session_cookie_name:
+            type: "string"
+            description: "cookie名称"
+      breaker:
+        type: "object"
+        description: "熔断器"
+        properties:
+          breaker_type:
+            type: "string"
+            description: "熔断器类型，只支持ResponseCodeRatio(响应码错误率)、NetworkErrorRatio(网络错误率)、LatencyAtQuantileMS(响应延迟)"
+          threshold_value:
+            type: "string"
+            description: "阈值, 除了LatencyAtQuantileMS单位是ms外，其他都是百分比"
+      redirect:
+        type: "object"
+        description: "重定向"
+        properties:
+          src:
+            type: "string"
+            description: "重定向匹配对象，支持正则表达式"
+          dest:
+            type: "string"
+            description: "重定向目标"
+      buffering:
+        type: "object"
+        description: "缓冲区"
+        properties:
+          maxRequestBodyBytes:
+            type: "integer"
+            description: "最大请求BODY体字节数，单位MB，-1表示不限制，默认是-1"
+          memRequestBodyBytes:
+            type: "integer"
+            description: "最大请求BODY内存占用节数，单位MB，默认是10MB"
+          maxResponseBodyBytes:
+            type: "integer"
+            description: "最大应答BODY体字节数，单位MB，-1表示不限制，默认是-1"
+          memResponseBodyBytes:
+            type: "integer"
+            description: "最大应答BODY内存占用节数，单位MB，默认是10MB"
+          retry:
+            type: "integer"
+            description: "出错时重试次数，最多5次，最少1次"
+      rate_limit:
+        type: "object"
+        description: "限速器"
+        properties:
+          period:
+            type: "integer"
+            description: "被限速后，正常响应恢复等待时间，单位ms"
+          average:
+            type: "integer"
+            description: "平均速率，即每秒请求次数"
+          burst:
+            type: "integer"
+            description: "峰值，即允许的最大每秒请求次数"
+      rule_type:
+        type: "object"
+        description: "匹配规则"
+        properties:
+          rule_type:
+            type: "string"
+            description: ",可以是:PathPrefixStrip,PathPrefix,PathStrip,Path之一"
+      rewriter:
+        type: "object"
+        description: "路径重写"
+        properties:
+          target:
+            type: "string"
+            description: "匹配后的重写路径"
+  ListBase:
+    type: "object"
+    properties:
+      total_num:
+        type: "integer"
+      page_size:
+        type: "integer"
+      page_index:
+        type: "integer"
+  HarborsTagLabels:
+    type: "object"
+    properties:
+      labels:
+        type: "object"
+        properties:
+          key1:
+            type: "string"
+          key2:
+            type: "string"
+  HarborsRepositoriesTagLabelsRsp:
+    type: "object"
+    properties:
+      IsSuccess:
+        type: "boolean"
+        default: true
+      Data:
+        type: "object"
+        properties:
+          labels:
+            type: "object"
+            properties:
+              key1:
+                type: "string"
+              key2:
+                type: "string"
