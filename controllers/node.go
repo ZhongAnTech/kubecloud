@@ -9,28 +9,33 @@ type NodeController struct {
 	BaseController
 }
 
-func (nc *NodeController) NodeList() {
-	clusterId := nc.GetStringFromPath(":cluster")
-	filter := nc.GetFilterQuery()
-	result, err := resource.GetNodeListFilter(clusterId, filter)
+func (nc *NodeController) ListNode() {
+	cluster := nc.GetStringFromPath(":cluster")
+
+	node, err := resource.NewNode(cluster)
 	if err != nil {
 		nc.ServeError(common.NewInternalServerError().SetCause(err))
 		return
 	}
-	if result.Base.PageSize == 0 {
-		// compatible old model
-		nc.Data["json"] = NewResult(true, result.List, "")
-	} else {
-		nc.Data["json"] = NewResult(true, result, "")
+	result, err := node.ListNode()
+	if err != nil {
+		nc.ServeError(common.NewInternalServerError().SetCause(err))
+		return
 	}
+	nc.Data["json"] = NewResult(true, result, "")
 	nc.ServeJSON()
 }
 
-func (nc *NodeController) NodeInspect() {
-	clusterId := nc.GetStringFromPath(":cluster")
+func (nc *NodeController) GetNode() {
+	cluster := nc.GetStringFromPath(":cluster")
 	nodeName := nc.GetStringFromPath(":node")
 
-	result, err := resource.GetNodeDetail(clusterId, nodeName)
+	node, err := resource.NewNode(cluster)
+	if err != nil {
+		nc.ServeError(common.NewInternalServerError().SetCause(err))
+		return
+	}
+	result, err := node.GetNode(nodeName)
 	if err != nil {
 		nc.ServeError(common.NewInternalServerError().SetCause(err))
 		return
@@ -40,18 +45,18 @@ func (nc *NodeController) NodeInspect() {
 }
 
 func (nc *NodeController) NodeUpdate() {
-	clusterId := nc.GetStringFromPath(":cluster")
-	node := nc.GetStringFromPath(":node")
+	cluster := nc.GetStringFromPath(":cluster")
+	nodeName := nc.GetStringFromPath(":node")
 
-	var nodeUpdate resource.NodeUpdate
+	var nodeUpdate map[string]string
 	nc.DecodeJSONReq(&nodeUpdate)
-	nodeUpdate.Cluster = clusterId
-	if err := nodeUpdate.Verify(); err != nil {
-		nc.ServeError(common.NewBadRequest().SetCause(err))
+
+	node, err := resource.NewNode(cluster)
+	if err != nil {
+		nc.ServeError(common.NewInternalServerError().SetCause(err))
 		return
 	}
-
-	if err := resource.UpdateNode(clusterId, node, nodeUpdate); err != nil {
+	if err := node.UpdateNode(nodeName, nodeUpdate); err != nil {
 		nc.ServeError(common.NewInternalServerError().SetCause(err))
 		return
 	}
@@ -60,10 +65,15 @@ func (nc *NodeController) NodeUpdate() {
 }
 
 func (nc *NodeController) NodeDelete() {
-	clusterId := nc.GetStringFromPath(":cluster")
-	node := nc.GetStringFromPath(":node")
+	cluster := nc.GetStringFromPath(":cluster")
+	nodeName := nc.GetStringFromPath(":node")
 
-	if err := resource.DeleteNode(clusterId, node); err != nil {
+	node, err := resource.NewNode(cluster)
+	if err != nil {
+		nc.ServeError(common.NewInternalServerError().SetCause(err))
+		return
+	}
+	if err := node.DeleteNode(nodeName); err != nil {
 		nc.ServeError(common.NewInternalServerError().SetCause(err))
 		return
 	}
@@ -73,13 +83,21 @@ func (nc *NodeController) NodeDelete() {
 }
 
 func (nc *NodeController) NodeFreeze() {
-	clusterId := nc.GetStringFromPath(":cluster")
-	node := nc.GetStringFromPath(":node")
+	cluster := nc.GetStringFromPath(":cluster")
+	nodeName := nc.GetStringFromPath(":node")
+	deletePods := nc.GetStringFromQuery("deletePods")
 
-	var nodeFreeze resource.NodeFreeze
-	nc.DecodeJSONReq(&nodeFreeze)
+	var delete bool
+	if deletePods == "true" {
+		delete = true
+	}
 
-	if err := resource.FreezeNode(clusterId, node, nodeFreeze.DeletePods); err != nil {
+	node, err := resource.NewNode(cluster)
+	if err != nil {
+		nc.ServeError(common.NewInternalServerError().SetCause(err))
+		return
+	}
+	if err := node.FreezeNode(nodeName, delete); err != nil {
 		nc.ServeError(common.NewInternalServerError().SetCause(err))
 		return
 	}
@@ -88,10 +106,15 @@ func (nc *NodeController) NodeFreeze() {
 }
 
 func (nc *NodeController) NodeUnfreeze() {
-	clusterId := nc.GetStringFromPath(":cluster")
-	node := nc.GetStringFromPath(":node")
+	cluster := nc.GetStringFromPath(":cluster")
+	nodeName := nc.GetStringFromPath(":node")
 
-	if err := resource.UnfreezeNode(clusterId, node); err != nil {
+	node, err := resource.NewNode(cluster)
+	if err != nil {
+		nc.ServeError(common.NewInternalServerError().SetCause(err))
+		return
+	}
+	if err := node.UnfreezeNode(nodeName); err != nil {
 		nc.ServeError(common.NewInternalServerError().SetCause(err))
 		return
 	}
@@ -100,10 +123,15 @@ func (nc *NodeController) NodeUnfreeze() {
 }
 
 func (nc *NodeController) NodePods() {
-	clusterId := nc.GetStringFromPath(":cluster")
+	cluster := nc.GetStringFromPath(":cluster")
 	nodeName := nc.GetStringFromPath(":node")
 
-	result, err := resource.GetNodePods(clusterId, nodeName)
+	node, err := resource.NewNode(cluster)
+	if err != nil {
+		nc.ServeError(common.NewInternalServerError().SetCause(err))
+		return
+	}
+	result, err := node.GetNodePods(nodeName)
 	if err != nil {
 		nc.ServeError(common.NewInternalServerError().SetCause(err))
 		return
@@ -113,11 +141,16 @@ func (nc *NodeController) NodePods() {
 }
 
 func (nc *NodeController) NodeEvent() {
-	filter := nc.GetFilterQuery()
-	clusterId := nc.GetStringFromPath(":cluster")
+	cluster := nc.GetStringFromPath(":cluster")
 	nodeName := nc.GetStringFromPath(":node")
+	filter := nc.GetFilterQuery()
 
-	result, err := resource.GetNodeEvent(clusterId, nodeName, filter)
+	node, err := resource.NewNode(cluster)
+	if err != nil {
+		nc.ServeError(common.NewInternalServerError().SetCause(err))
+		return
+	}
+	result, err := node.GetNodeEvent(nodeName, filter)
 	if err != nil {
 		nc.ServeError(common.NewInternalServerError().SetCause(err))
 		return

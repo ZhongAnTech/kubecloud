@@ -16,8 +16,6 @@ import (
 	"kubecloud/common/utils"
 
 	"github.com/astaxie/beego"
-	"github.com/prometheus/client_golang/api"
-	v1 "github.com/prometheus/client_golang/api/prometheus/v1"
 	app "k8s.io/api/apps/v1beta1"
 	apiv1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -100,32 +98,6 @@ func GetListOption(key, value string) (metav1.ListOptions, error) {
 		return metav1.ListOptions{}, err
 	}
 	return metav1.ListOptions{LabelSelector: selector.String()}, nil
-}
-
-func GetPromethusClient(cluster string) (v1.API, error) {
-	// Get host of nodePort on which prometheus run
-	c, err := dao.GetCluster(cluster)
-	if err != nil {
-		return nil, err
-	}
-	addr := c.PrometheusAddr
-	if addr == "" {
-		nodeList, err := GetSimpleNodes(cluster)
-		if err != nil {
-			return nil, err
-		}
-		addr = "http://" + nodeList[0].Name + ":" + beego.AppConfig.String("prometheus::serviceNodePort")
-	}
-	// Setup prometheus config and client
-	config := api.Config{
-		Address: addr,
-	}
-	client, err := api.NewClient(config)
-	if err != nil {
-		return nil, err
-	}
-
-	return v1.NewAPI(client), nil
 }
 
 func GetContainerVersion(image string) string {

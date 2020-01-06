@@ -23,9 +23,10 @@ func Init() {
 				beego.NSRouter("/clusters", &controllers.ClusterController{}, "post:CreateCluster"),
 				beego.NSRouter("/clusters/list", &controllers.ClusterController{}, "post:ClusterList"),
 				beego.NSRouter("/clusters/:cluster", &controllers.ClusterController{}, "get:InspectCluster;put:UpdateCluster;delete:DeleteCluster"),
+
 				// node
-				beego.NSRouter("/clusters/:cluster/nodes/list", &controllers.NodeController{}, "post:NodeList"),
-				beego.NSRouter("/clusters/:cluster/nodes/:node", &controllers.NodeController{}, "get:NodeInspect;put:NodeUpdate;delete:NodeDelete"),
+				beego.NSRouter("/clusters/:cluster/nodes", &controllers.NodeController{}, "post:ListNode"),
+				beego.NSRouter("/clusters/:cluster/nodes/:node", &controllers.NodeController{}, "get:GetNode;put:NodeUpdate;delete:NodeDelete"),
 				beego.NSRouter("/clusters/:cluster/nodes/:node/freeze", &controllers.NodeController{}, "post:NodeFreeze"),
 				beego.NSRouter("/clusters/:cluster/nodes/:node/unfreeze", &controllers.NodeController{}, "post:NodeUnfreeze"),
 				beego.NSRouter("/clusters/:cluster/nodes/:node/pods", &controllers.NodeController{}, "get:NodePods"),

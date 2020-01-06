@@ -137,7 +137,6 @@ func initOrm() {
 	}
 	registerModel(
 		new(ZcloudCluster),
-		new(ZcloudNode),
 		new(ZcloudHarbor),
 		new(ZcloudHarborProject),
 		new(ZcloudHarborRepository),

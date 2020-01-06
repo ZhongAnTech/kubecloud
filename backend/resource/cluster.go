@@ -28,7 +28,6 @@ type ClusterLoadBalancer struct {
 type Cluster struct {
 	models.ZcloudCluster
 	DomainSuffixs      []*models.ZcloudClusterDomainSuffix `json:"domain_suffixs"`
-	Masters            []NodeInfo                          `json:"master"`
 	LoadbalancerConfig ClusterLoadBalancer                 `json:"lb_config"`
 	CreateAt           string                              `json:"create_at"`
 	UpdateAt           string                              `json:"update_at"`
@@ -332,10 +331,6 @@ func SetClusterCertificate(clusterId, certificate string) error {
 
 func DeleteCluster(clusterId string) error {
 	// (TODO) should check before delete
-	if err := dao.DeleteNodesByClusterName(clusterId); err != nil {
-		return err
-	}
-
 	if err := dao.DeleteClusterDomainSuffix(clusterId); err != nil {
 		return err
 	}
