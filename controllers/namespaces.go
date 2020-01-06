@@ -1,77 +1,98 @@
 package controllers
 
 import (
+	corev1 "k8s.io/api/core/v1"
+
 	"kubecloud/backend/resource"
-	"net/http"
+	"kubecloud/common"
 )
 
 type NamespaceController struct {
 	BaseController
 }
 
-func (this *NamespaceController) NamespaceList() {
-	clusterId := this.GetStringFromPath(":cluster")
-	filterQuery := this.GetFilterQuery()
-	res, err := resource.NamespaceGetAll(clusterId, filterQuery)
+func (nc *NamespaceController) ListNamespace() {
+	cluster := nc.GetStringFromPath(":cluster")
+
+	namesapceRes, err := resource.NewNamespace(cluster)
 	if err != nil {
-		this.ServeError(err)
+		nc.ServeError(common.NewInternalServerError().SetCause(err))
 		return
 	}
-	this.ServeResult(NewResult(true, res, ""))
+	res, err := namesapceRes.ListNamespace()
+	if err != nil {
+		nc.ServeError(err)
+		return
+	}
+	nc.ServeResult(NewResult(true, res, ""))
 }
 
-func (this *NamespaceController) Create() {
-	clusterId := this.GetStringFromPath(":cluster")
-	var data resource.NamespaceData
-	this.DecodeJSONReq(&data)
-	if err := resource.NamespaceValidate(&data); err != nil {
-		this.ServeError(err)
-		return
-	}
-	row, err := resource.NamespaceCreate(clusterId, &data)
+func (nc *NamespaceController) CreateNamespace() {
+	cluster := nc.GetStringFromPath(":cluster")
+	var data corev1.Namespace
+	nc.DecodeJSONReq(&data)
+
+	namesapceRes, err := resource.NewNamespace(cluster)
 	if err != nil {
-		this.ServeError(err)
+		nc.ServeError(common.NewInternalServerError().SetCause(err))
 		return
 	}
-	this.SetStatus(http.StatusCreated)
-	this.ServeResult(NewResult(true, row, ""))
+	row, err := namesapceRes.CreateNamespace(&data)
+	if err != nil {
+		nc.ServeError(err)
+		return
+	}
+	nc.ServeResult(NewResult(true, row, ""))
 }
 
-func (this *NamespaceController) Update() {
-	clusterId := this.GetStringFromPath(":cluster")
-	namespace := this.GetStringFromPath(":namespace")
-	var data resource.NamespaceData
-	this.DecodeJSONReq(&data)
-	data.Name = namespace
-	if err := resource.NamespaceValidate(&data); err != nil {
-		this.ServeError(err)
-		return
-	}
-	row, err := resource.NamespaceUpdate(clusterId, &data)
+func (nc *NamespaceController) NamespaceLabels() {
+	cluster := nc.GetStringFromPath(":cluster")
+	namespace := nc.GetStringFromPath(":namespace")
+	var labels map[string]string
+	nc.DecodeJSONReq(&labels)
+
+	namesapceRes, err := resource.NewNamespace(cluster)
 	if err != nil {
-		this.ServeError(err)
+		nc.ServeError(common.NewInternalServerError().SetCause(err))
 		return
 	}
-	this.ServeResult(NewResult(true, row, ""))
+	res, err := namesapceRes.NamespaceLabels(namespace, labels)
+	if err != nil {
+		nc.ServeError(err)
+		return
+	}
+	nc.ServeResult(NewResult(true, res, ""))
 }
 
-func (this *NamespaceController) Delete() {
-	clusterId := this.GetStringFromPath(":cluster")
-	namespace := this.GetStringFromPath(":namespace")
-	if err := resource.NamespaceDelete(clusterId, namespace); err != nil {
-		this.ServeError(err)
+func (nc *NamespaceController) DeleteNamespace() {
+	cluster := nc.GetStringFromPath(":cluster")
+	namespace := nc.GetStringFromPath(":namespace")
+
+	namesapceRes, err := resource.NewNamespace(cluster)
+	if err != nil {
+		nc.ServeError(common.NewInternalServerError().SetCause(err))
 		return
 	}
-	this.ServeResult(NewResult(true, nil, ""))
+	if err := namesapceRes.NamespaceDelete(namespace); err != nil {
+		nc.ServeError(err)
+		return
+	}
+	nc.ServeResult(NewResult(true, nil, ""))
 }
 
-func (this *NamespaceController) Inspect() {
-	clusterId := this.GetStringFromPath(":cluster")
-	namespace := this.GetStringFromPath(":namespace")
-	row, err := resource.NamespaceGetOne(clusterId, namespace)
+func (nc *NamespaceController) GetNamespace() {
+	cluster := nc.GetStringFromPath(":cluster")
+	namespace := nc.GetStringFromPath(":namespace")
+
+	namesapceRes, err := resource.NewNamespace(cluster)
 	if err != nil {
-		this.ServeError(err)
+		nc.ServeError(common.NewInternalServerError().SetCause(err))
 		return
 	}
-	this.ServeResult(NewResult(true, row, ""))
+	res, err := namesapceRes.GetNamespace(namespace)
+	if err != nil {
+		nc.ServeError(err)
+		return
+	}
+	nc.ServeResult(NewResult(true, res, ""))
 }

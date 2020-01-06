@@ -7,7 +7,6 @@ import (
 	"github.com/astaxie/beego"
 	meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	cm "kubecloud/backend/controllermanager"
 	"kubecloud/backend/dao"
 	"kubecloud/backend/models"
 	"kubecloud/backend/service"
@@ -195,7 +194,6 @@ func CreateCluster(cluster Cluster) (*Cluster, error) {
 		if _, err := service.UpdateClientset(cluster.ClusterId); err != nil {
 			return nil, err
 		}
-		go cm.StartControllers(cluster.ClusterId)
 	}
 
 	if err := dao.CreateCluster(clusterModel); err != nil {
@@ -290,7 +288,6 @@ func UpdateCluster(cluster Cluster) (*Cluster, error) {
 		if _, err = service.UpdateClientset(item.ClusterId); err != nil {
 			return nil, err
 		}
-		go cm.StartControllers(item.ClusterId)
 	}
 
 	item.Addons = item.Addons.UpdateAddons()
@@ -323,9 +320,6 @@ func SetClusterCertificate(clusterId, certificate string) error {
 	if err = dao.UpdateCluster(*item); err != nil {
 		return err
 	}
-
-	go cm.StartControllers(item.ClusterId)
-
 	return nil
 }
 

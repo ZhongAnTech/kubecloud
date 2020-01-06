@@ -46,7 +46,7 @@ func (n *Node) GetNode(name string) (*corev1.Node, error) {
 	return node, nil
 }
 
-func (n *Node) UpdateNode(name string, labels map[string]string) error {
+func (n *Node) NodeLabels(name string, labels map[string]string) error {
 	node, err := n.client.CoreV1().Nodes().Get(name, metav1.GetOptions{})
 	if err != nil {
 		return err

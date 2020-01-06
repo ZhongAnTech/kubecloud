@@ -26,18 +26,17 @@ func Init() {
 
 				// node
 				beego.NSRouter("/clusters/:cluster/nodes", &controllers.NodeController{}, "post:ListNode"),
-				beego.NSRouter("/clusters/:cluster/nodes/:node", &controllers.NodeController{}, "get:GetNode;put:NodeUpdate;delete:NodeDelete"),
+				beego.NSRouter("/clusters/:cluster/nodes/:node", &controllers.NodeController{}, "get:GetNode;put:NodeLabels;delete:NodeDelete"),
 				beego.NSRouter("/clusters/:cluster/nodes/:node/freeze", &controllers.NodeController{}, "post:NodeFreeze"),
 				beego.NSRouter("/clusters/:cluster/nodes/:node/unfreeze", &controllers.NodeController{}, "post:NodeUnfreeze"),
 				beego.NSRouter("/clusters/:cluster/nodes/:node/pods", &controllers.NodeController{}, "get:NodePods"),
 				beego.NSRouter("/clusters/:cluster/nodes/:node/event", &controllers.NodeController{}, "post:NodeEvent"),
 
 				// namespace
-				beego.NSRouter("/clusters/:cluster/namespaces", &controllers.NamespaceController{}, "post:Create"),
-				beego.NSRouter("/clusters/:cluster/namespaces/list", &controllers.NamespaceController{}, "post:NamespaceList"),
-				beego.NSRouter("/clusters/:cluster/namespaces/:namespace", &controllers.NamespaceController{}, "get:Inspect;put:Update;delete:Delete"),
+				beego.NSRouter("/clusters/:cluster/namespaces", &controllers.NamespaceController{}, "post:CreateNamespace;get:ListNamespace"),
+				beego.NSRouter("/clusters/:cluster/namespaces/:namespace", &controllers.NamespaceController{}, "get:GetNamespace;put:NamespaceLabels;delete:DeleteNamespace"),
 
-				// app
+				// deployment
 				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/apps", &controllers.AppController{}, "post:Create"),
 				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/apps/:app/label", &controllers.AppController{}, "post:SetAppLabels"),
 				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/apps/rollingupdate", &controllers.AppController{}, "post:BatchRollingUpdate"),
@@ -50,13 +49,10 @@ func Init() {
 				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/apps/:app/log", &controllers.AppController{}, "get:Log"),
 				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/apps/:app/event", &controllers.AppController{}, "get:Event"),
 				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/apps/:app/pods/:podname/status", &controllers.AppController{}, "get:PodInspect"),
+
+				// pod
 				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/apps/:app/pods/:podname/containernames/:containername/terminal", &controllers.TermController{}, "get:PodTerminal"),
 				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/apps/:app/pods/:podname/containernames/:containername/exec", &controllers.ExecController{}, "get:PodTerminalExec"),
-
-				// secret
-				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/secrets", &controllers.SecretController{}, "post:Create"),
-				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/secrets/list", &controllers.SecretController{}, "post:List"),
-				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/secrets/:secret", &controllers.SecretController{}, "delete:Delete;put:Update"),
 
 				// ingress
 				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/ingresses", &controllers.IngressController{}, "post:Create"),
@@ -66,6 +62,15 @@ func Init() {
 				// service
 				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/services", &controllers.ServiceController{}, "get:List"),
 				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/services/:service", &controllers.ServiceController{}, "get:Inspect"),
+
+				// configmap
+				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/configmaps", &controllers.ConfigMapController{}, "get:List;post:Create"),
+				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/configmaps/:configmap", &controllers.ConfigMapController{}, "get:Inspect;put:Update;delete:Delete"),
+
+				// secret
+				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/secrets", &controllers.SecretController{}, "post:Create"),
+				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/secrets/list", &controllers.SecretController{}, "post:List"),
+				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/secrets/:secret", &controllers.SecretController{}, "delete:Delete;put:Update"),
 
 				// harbor
 				beego.NSRouter("/harbors", &controllers.HarborController{}, "post:HarborCreate"),
@@ -79,10 +84,6 @@ func Init() {
 				beego.NSRouter("/harbors/:harbor/repositories/*/tags/:tag", &controllers.HarborController{}, "delete:DeleteRepositoryTag"),
 				beego.NSRouter("/harbors/:harbor/repositories/*/tags/:tag/labels", &controllers.HarborController{}, "get:GetRepositoryTagLabels;post:SetRepositoryTagLabels"),
 				beego.NSRouter("/harbors/:harbor/projects/:project/public/:public", &controllers.HarborController{}, "post:SetHarborProjectPublic"),
-
-				// Configmap
-				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/configmaps", &controllers.ConfigMapController{}, "get:List;post:Create"),
-				beego.NSRouter("/clusters/:cluster/namespaces/:namespace/configmaps/:configmap", &controllers.ConfigMapController{}, "get:Inspect;put:Update;delete:Delete"),
 			),
 		)
 

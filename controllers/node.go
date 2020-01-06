@@ -44,19 +44,19 @@ func (nc *NodeController) GetNode() {
 	nc.ServeJSON()
 }
 
-func (nc *NodeController) NodeUpdate() {
+func (nc *NodeController) NodeLabels() {
 	cluster := nc.GetStringFromPath(":cluster")
 	nodeName := nc.GetStringFromPath(":node")
 
-	var nodeUpdate map[string]string
-	nc.DecodeJSONReq(&nodeUpdate)
+	var labels map[string]string
+	nc.DecodeJSONReq(&labels)
 
 	node, err := resource.NewNode(cluster)
 	if err != nil {
 		nc.ServeError(common.NewInternalServerError().SetCause(err))
 		return
 	}
-	if err := node.UpdateNode(nodeName, nodeUpdate); err != nil {
+	if err := node.NodeLabels(nodeName, labels); err != nil {
 		nc.ServeError(common.NewInternalServerError().SetCause(err))
 		return
 	}

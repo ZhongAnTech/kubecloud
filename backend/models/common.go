@@ -151,7 +151,6 @@ func initOrm() {
 		new(K8sServicePort),
 		new(K8sEndpoint),
 		new(K8sEndpointAddress),
-		new(K8sNamespace),
 		new(ZcloudRepositoryTag),
 		new(ZcloudClusterDomainSuffix),
 	)

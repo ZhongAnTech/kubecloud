@@ -1,10 +1,5 @@
 package controllers
 
-import (
-	"kubecloud/backend/dao"
-	"kubecloud/common"
-)
-
 // TODO: deprecate IsSuccess, Origin
 type Result struct {
 	IsSuccess bool        `json:"IsSuccess"`
@@ -25,18 +20,5 @@ func NewErrorResult(errCode, errMsg, errDetail string) *Result {
 		ErrCode:   errCode,
 		ErrMsg:    errMsg,
 		ErrDetail: errDetail,
-	}
-}
-
-//NamespaceListFunc ...
-func NamespaceListFunc(cluster string, initns string) func() []string {
-	return func() []string {
-		nsList := []string{}
-		if initns == common.AllNamespace {
-			nsList, _ = dao.GetClusterNamespaceList(cluster)
-		} else {
-			nsList = append(nsList, initns)
-		}
-		return nsList
 	}
 }
